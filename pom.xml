@@ -11,6 +11,8 @@
     <modules>
         <module>sample-domain</module>
         <module>core</module>
+        <module>backend</module>
+        <module>frontend</module>
     </modules>
     <dependencyManagement>
         <dependencies>
