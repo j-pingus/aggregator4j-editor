@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController()
-@RequestMapping("/jar")
+@RequestMapping("/api/v1/jars")
 public class JarManager {
     @Value("${editor.jarfolder}")
     String jarFolderPath;

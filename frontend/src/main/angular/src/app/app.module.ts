@@ -12,14 +12,27 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-
+import { HttpClientModule } from '@angular/common/http';
+import { JarListComponent } from './jar-list/jar-list.component';
+import { RouterModule, Routes } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+const appRoutes: Routes = [
+  {
+    path: 'jars',
+    component: JarListComponent,
+    data: { title: 'Product List' }
+  }
+];
 @NgModule({
   declarations: [
     AppComponent,
-    SideMenuComponent
+    SideMenuComponent,
+    JarListComponent
   ],
   imports: [
+    RouterModule.forRoot(appRoutes),
     BrowserModule,
+    HttpClientModule,
     MatSliderModule,
     AppRoutingModule,
     BrowserAnimationsModule,
