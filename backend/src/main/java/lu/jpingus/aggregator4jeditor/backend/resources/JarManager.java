@@ -1,12 +1,15 @@
 package lu.jpingus.aggregator4jeditor.backend.resources;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +28,29 @@ public class JarManager {
                 .map(file -> file.getName())
                 .collect(Collectors.toList());
     }
-
+    @PostMapping
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        String message;
+        try {
+            File dest=new File(jarFolderPath,file.getOriginalFilename());
+            if(dest.exists()){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File already exist");
+            }
+            if(!dest.getName().endsWith(".jar")){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This is not a jar");
+            }
+            try {
+                Files.copy(file.getInputStream(), Paths.get(dest.toURI()));
+            } catch (Exception e) {
+                throw new RuntimeException("FAIL!");
+            }
+            message = "Successfully uploaded!";
+            return ResponseEntity.status(HttpStatus.OK).body(message);
+        } catch (Exception e) {
+            message = "Failed to upload!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+        }
+    }
     private File getOrCreateJarFolder() {
         if (StringUtils.isEmpty(jarFolderPath)) {
             jarFolderPath = "my-jar-folder";

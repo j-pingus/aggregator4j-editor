@@ -1,10 +1,40 @@
-<h1>List of Jars</h1>
-<ul class="jars">
-    <li *ngFor="let p of jars; let i=index;">
-      <a routerLink="/product-details/{{p}}">
-        <span class="badge">{{i+1}}</span> {{p}}
-      </a>
-      <button class="delete" title="delete product"
-        (click)="delete(p)">x</button>
-    </li>
-  </ul>
+<div class="wrapper">
+
+  <div class="wrapper-title">
+    <h2>List of Jars</h2>
+  </div>
+  <div class="wrapper-body">
+
+    <mat-list>
+      <mat-list-item *ngFor="let p of jars; let i=index;">
+        <mat-icon mat-list-icon>folder</mat-icon>
+        <span mat-line>{{i+1}} {{p}}
+        </span>
+        <button mat-raised-button title="delete product" (click)="delete(p)" matTooltip="delete {{p}}"
+          matTooltipPosition="left">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>
+<div class="wrapper">
+
+  <div class="wrapper-title">
+    <h2>Upload a Jar</h2>
+  </div>
+  <div class="wrapper-body"><input #jarInput hidden="true" type="file" onclick="this.value=null"
+      (change)="selectFile($event)" accept=".jar" />
+    <button mat-flat-button color="primary" (click)="jarInput.click()">Choose a domain File (JAR)</button>
+    <button mat-raised-button [disabled]="!selectedFiles" (click)="upload()" matTooltip="upload"
+      matTooltipPosition="right">
+      <mat-icon>attachment</mat-icon>
+    </button>
+  </div>
+</div>
+
+
+<br />
+<a routerLink="/product-details/">
+  random link
+</a>
