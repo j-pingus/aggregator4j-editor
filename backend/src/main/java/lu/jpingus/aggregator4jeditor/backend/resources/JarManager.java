@@ -2,6 +2,7 @@ package lu.jpingus.aggregator4jeditor.backend.resources;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController()
-@RequestMapping("/api/v1/jars")
+@RequestMapping(value = "/api/v1/jars",produces = MediaType.APPLICATION_JSON_VALUE)
 public class JarManager {
     @Value("${editor.jarfolder}")
     String jarFolderPath;
@@ -50,6 +51,23 @@ public class JarManager {
             message = "Failed to upload!";
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
         }
+    }
+    class myAnswer{
+        public String message;
+
+        public myAnswer(String message) {
+            this.message = message;
+        }
+    }
+    @DeleteMapping("/{jarName}")
+    public ResponseEntity<myAnswer>deleteJar(@PathVariable("jarName")String jarName){
+        File dest=new File(jarFolderPath,jarName);
+        if(!dest.exists()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new myAnswer("File does not exist"));
+        }
+        dest.delete();
+        String message=jarName+" deleted";
+        return ResponseEntity.status(HttpStatus.OK).body(new myAnswer(message));
     }
     private File getOrCreateJarFolder() {
         if (StringUtils.isEmpty(jarFolderPath)) {

@@ -17,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { JarListComponent } from './jar-list/jar-list.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 const appRoutes: Routes = [
   {
     path: 'jars',
@@ -43,7 +44,8 @@ const appRoutes: Routes = [
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

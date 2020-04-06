@@ -22,6 +22,9 @@ export class JarServiceService {
     return this.http.get(endpoint + 'jars').pipe(
       map(this.extractData));
   }
+  deleteJar(jar): Observable<any>{
+    return this.http.delete(endpoint+'jars/'+jar).pipe(map((this.extractData)));
+  }
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 

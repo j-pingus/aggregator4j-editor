@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { JarServiceService } from '../jar-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpEventType, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import {MatSnackBar} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-jar-list',
   templateUrl: './jar-list.component.html',
@@ -15,7 +16,7 @@ export class JarListComponent implements OnInit {
   selectedFile = null;
   changeImage = false;
 
-  constructor(public jarService: JarServiceService, private route: ActivatedRoute, private router: Router) {
+  constructor(public jarService: JarServiceService, private route: ActivatedRoute, private router: Router, private snackBar:MatSnackBar) {
     console.log('Jar list component created');
   }
 
@@ -29,7 +30,12 @@ export class JarListComponent implements OnInit {
       this.jars = data;
     });
   }
-  delete(jar) { }
+  delete(jar) { 
+    this.jarService.deleteJar(jar).subscribe(data=>{
+      this.snackBar.open(data.message,null,{duration:1300});
+      this.getJars();
+    });
+  }
   change($event) {
     this.changeImage = true;
   }
@@ -39,14 +45,23 @@ export class JarListComponent implements OnInit {
   public upload() {
     this.progress.percentage = 0;
     this.currentFileUpload = this.selectedFiles.item(0);
-    this.jarService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
+    this.jarService.pushFileToStorage(this.currentFileUpload)
+    .subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
         this.progress.percentage = Math.round(100 * event.loaded / event.total);
       } else if (event instanceof HttpResponse) {
-        alert('File Successfully Uploaded');
+        this.snackBar.open(this.currentFileUpload.name+" uploaded",null,{duration:2800});
+        //alert('File Successfully Uploaded');
         this.getJars();
       }
       this.selectedFiles = undefined;
+    },
+    error => {
+      if(error instanceof HttpErrorResponse){
+        this.snackBar.open(error.error,"Error",{duration:5000});
+      }else{
+        console.error(error);
+      }
     }
     );
   }
