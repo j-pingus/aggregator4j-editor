@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { JarServiceService } from './jar-service.service';
+import { JarService } from './jar.service';
 
-describe('JarServiceService', () => {
-  let service: JarServiceService;
+describe('JarService', () => {
+  let service: JarService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(JarServiceService);
+    service = TestBed.inject(JarService);
   });
 
   it('should be created', () => {

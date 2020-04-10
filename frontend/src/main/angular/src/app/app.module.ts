@@ -16,20 +16,29 @@ import { MatTooltipModule } from '@angular/material/tooltip'
 import { HttpClientModule } from '@angular/common/http';
 import { JarListComponent } from './jar-list/jar-list.component';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ProjectEditorComponent } from './project-editor/project-editor.component';
+import { ConfigEditorComponent } from './config-editor/config-editor.component';
+import { ProjectListComponent } from './project-list/project-list.component'
 const appRoutes: Routes = [
   {
     path: 'jars',
-    component: JarListComponent,
-    data: { title: 'Product List' }
+    component: JarListComponent
+  },
+  {
+    path: 'projects',
+    component: ProjectListComponent
   }
 ];
 @NgModule({
   declarations: [
     AppComponent,
     SideMenuComponent,
-    JarListComponent
+    JarListComponent,
+    ProjectEditorComponent,
+    ConfigEditorComponent,
+    ProjectListComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -39,6 +48,7 @@ const appRoutes: Routes = [
     AppRoutingModule,
     BrowserAnimationsModule,
     LayoutModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,

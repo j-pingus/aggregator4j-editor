@@ -1,0 +1,25 @@
+<div class="wrapper">
+
+    <div class="wrapper-title">
+      <h2>List of Projects</h2>
+    </div>
+    <div class="wrapper-body">
+  
+      <mat-list>
+        <mat-list-item *ngFor="let p of projects; let i=index;">
+          <mat-icon mat-list-icon>folder</mat-icon>
+          <span mat-line>{{i+1}} {{p.name}}
+          </span>
+          <button mat-raised-button title="edit {{p.name}}" (click)="edit(p)" matTooltip="edit {{p.name}}"
+            matTooltipPosition="left">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-raised-button title="delete {{p.name}}" (click)="delete(p)" matTooltip="delete {{p.name}}"
+            matTooltipPosition="left">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+  

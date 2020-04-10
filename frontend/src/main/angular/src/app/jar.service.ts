@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEvent, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
-const endpoint = 'http://localhost:8080/api/v1/';
+import { environment } from '../environments/environment';
+const endpoint = environment.baseUrl;
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
@@ -12,7 +13,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class JarServiceService {
+export class JarService {
   constructor(private http: HttpClient) { }
   private extractData(res: Response) {
     let body = res;

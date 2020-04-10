@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { JarServiceService } from '../jar-service.service';
+import { JarService } from '../jar.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpEventType, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -16,7 +16,7 @@ export class JarListComponent implements OnInit {
   selectedFile = null;
   changeImage = false;
 
-  constructor(public jarService: JarServiceService, private route: ActivatedRoute, private router: Router, private snackBar:MatSnackBar) {
+  constructor(public jarService: JarService, private route: ActivatedRoute, private router: Router, private snackBar:MatSnackBar) {
     console.log('Jar list component created');
   }
 
