@@ -29,6 +29,10 @@ const appRoutes: Routes = [
   {
     path: 'projects',
     component: ProjectListComponent
+  },
+  {
+    path: 'project/:id',
+    component: ProjectEditorComponent
   }
 ];
 @NgModule({

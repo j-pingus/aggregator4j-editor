@@ -18,4 +18,14 @@ export class ProjectService {
     return this.http.get(endpoint + 'projects').pipe(
       map(this.extractData));
   }
+  newProject(): Observable<any>{
+    return this.http.get(endpoint+'projects/new').pipe(
+      map(this.extractData)
+    );
+  }
+  getProject(id:String): Observable<any>{
+    return this.http.get(endpoint+'project/'+id).pipe(
+      map(this.extractData)
+    );
+  }
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ProjectService } from '../project.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-project-editor',
   templateUrl: './project-editor.component.html',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProjectEditorComponent implements OnInit {
 
-  constructor() { }
+  project:any;
+  id:string;
+  constructor(private service:ProjectService,private route:ActivatedRoute) { 
+   }
 
   ngOnInit(): void {
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) =>
+        this.service.getProject(params.get('id')))
+    ).subscribe(project=>{
+      this.project=project;
+      console.log(project);
+    }
+    )
   }
 
 }
