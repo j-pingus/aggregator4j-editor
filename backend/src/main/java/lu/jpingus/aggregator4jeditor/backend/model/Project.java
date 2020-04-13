@@ -9,6 +9,6 @@ import lombok.EqualsAndHashCode;
 @Data
 public class Project extends ProjectReference{
     Aggregator4j configuration;
-    JsonNode jsonPayload;
+    String jsonPayload;
     String className;
 }

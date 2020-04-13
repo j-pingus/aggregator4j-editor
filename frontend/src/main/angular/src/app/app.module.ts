@@ -20,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProjectEditorComponent } from './project-editor/project-editor.component';
 import { ConfigEditorComponent } from './config-editor/config-editor.component';
-import { ProjectListComponent } from './project-list/project-list.component'
+import { ProjectListComponent } from './project-list/project-list.component';
+import { JsonInputComponent } from './json-input/json-input.component'
 const appRoutes: Routes = [
   {
     path: 'jars',
@@ -42,7 +43,8 @@ const appRoutes: Routes = [
     JarListComponent,
     ProjectEditorComponent,
     ConfigEditorComponent,
-    ProjectListComponent
+    ProjectListComponent,
+    JsonInputComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

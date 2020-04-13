@@ -37,7 +37,7 @@ public class ProjectController extends FileBasedController {
         ret.setName("New Project");
         ret.setConfiguration(new Aggregator4j());
         ret.setClassName("");
-        ret.setJsonPayload(new ObjectNode(new JsonNodeFactory(true)));
+        ret.setJsonPayload("{}");
         save(ret);
         return ret;
 

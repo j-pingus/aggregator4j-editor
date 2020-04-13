@@ -23,7 +23,7 @@ export class ProjectEditorComponent implements OnInit {
         classList: formBuilder.array([]),
         analysedPackage: ''
       }), 
-      jsonPayload: {},
+      jsonPayload: '',
       className: ''
     }
     )
@@ -36,7 +36,7 @@ export class ProjectEditorComponent implements OnInit {
     ).subscribe(project => {
       this.project = project;
       this.control.patchValue(project);
-      console.log(project);
+      console.log(this.control);
     }
     )
   }

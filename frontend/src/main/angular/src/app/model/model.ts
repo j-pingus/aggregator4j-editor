@@ -2,7 +2,7 @@ export class Project {
     id : String = '';
     name : String = '';
     configuration : Aggregator4j = new Aggregator4j;
-    jsonPayload : any;
+    jsonPayload : '{}';
     className : String = '';
 }    
 export class Aggregator4j {

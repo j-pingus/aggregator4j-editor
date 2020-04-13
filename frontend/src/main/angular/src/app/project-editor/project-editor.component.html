@@ -2,6 +2,7 @@
     {{control.get('id').value}}
     <input formControlName="name"/>
     <a4j-config-editor [config]="control.get('configuration')"></a4j-config-editor>
+    <json-input [json]="control.get('jsonPayload')"></json-input>
 </div>
 
 {{control.value | json }}

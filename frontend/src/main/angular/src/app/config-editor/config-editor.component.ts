@@ -15,10 +15,8 @@ export class ConfigEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.config);
     this.functions=this.config.get('functionList') as FormArray;
     this.classes=this.config.get('classList') as FormArray;
-    console.log(this.functions);
   }
   addFunction(){
     this.functions.push(
