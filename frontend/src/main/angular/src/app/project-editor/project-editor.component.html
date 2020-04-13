@@ -1,6 +1,6 @@
 <div [formGroup]="control">
+    {{control.get('id').value}}
     <input formControlName="name"/>
-    <input formControlName="id"/>
     <a4j-config-editor [config]="control.get('configuration')"></a4j-config-editor>
 </div>
 

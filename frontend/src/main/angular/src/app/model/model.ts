@@ -10,16 +10,16 @@ export class Aggregator4j {
     classList : Class[]=new Class[0];
     analysedPackage : String = '';
 }
-class Function {
+export class Function {
     registerClass : String = '';
     namespace : String = '';
 }
 export class Class {
     classContext : String = '';
     className : String = '';
-    executeList : Execute []= new Execute[0];
-    collectList : Collect []=new Collect[0];
-    variableList : Variable []=new Variable[0];
+    executeList : Execute []= [];
+    collectList : Collect []= [];
+    variableList : Variable []= [];
 }
 export class Execute {
     jexl : String = '';

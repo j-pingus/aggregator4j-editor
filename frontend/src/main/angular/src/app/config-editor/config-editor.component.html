@@ -1,3 +1,21 @@
-<div [formGroup]="config">
+<div [formGroup]="config" style="border: 1px solid blue">
     <input formControlName="analysedPackage"/>
+    <div style="border: 1px solid red;">
+        <h3>functions</h3>
+        <div *ngFor="let function of functions.controls; index as i" [formGroup]="function">
+            {{i+1}} <label>namespace</label><input formControlName="namespace" />
+            <label>class to register</label><input formControlName="registerClass" />
+            <button (click)="removeFunction(i)">X</button>
+        </div>
+        <button (click)="addFunction()">+</button>
+    </div>
+    <div style="border:1px solid green">
+        <h3>classes</h3>
+        <div *ngFor="let clazz of classes.controls; index as i" [formGroup]="clazz">
+            {{i+1}} <label>context</label><input formControlName="classContext"/>
+            <label>name</label><input formControlName="className"/>
+            <button (click)="removeClass(i)">X</button>
+        </div>
+        <button (click)="addClass()">+</button>
+    </div>
 </div>
