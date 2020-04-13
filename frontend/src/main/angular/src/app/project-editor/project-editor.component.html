@@ -1,1 +1,7 @@
-<p>project-editor works!</p>
+<div [formGroup]="control">
+    <input formControlName="name"/>
+    <input formControlName="id"/>
+    <a4j-config-editor [config]="control.get('configuration')"></a4j-config-editor>
+</div>
+
+{{control.value | json }}

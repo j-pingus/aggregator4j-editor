@@ -1,0 +1,38 @@
+export class Project {
+    id : String = '';
+    name : String = '';
+    configuration : Aggregator4j = new Aggregator4j;
+    jsonPayload : any;
+    className : String = '';
+}    
+export class Aggregator4j {
+    functionList : Function[]=new Function[0];
+    classList : Class[]=new Class[0];
+    analysedPackage : String = '';
+}
+class Function {
+    registerClass : String = '';
+    namespace : String = '';
+}
+export class Class {
+    classContext : String = '';
+    className : String = '';
+    executeList : Execute []= new Execute[0];
+    collectList : Collect []=new Collect[0];
+    variableList : Variable []=new Variable[0];
+}
+export class Execute {
+    jexl : String = '';
+    when : String = '';
+    field : String = '';
+}
+export class Collect {
+    field : String = '';
+    what : String = '';
+    to : String = '';
+    when : String = '';
+}
+export class Variable {
+    field : String = '';
+    variable : String = '';
+}

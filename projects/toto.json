@@ -1,0 +1,9 @@
+{
+  "id": "toto",
+  "name": "Project Toto",
+  "configuration": {
+    "functionList": [],
+    "classList": [],
+    "analysedPackage": "com.my.package"
+  }
+}
