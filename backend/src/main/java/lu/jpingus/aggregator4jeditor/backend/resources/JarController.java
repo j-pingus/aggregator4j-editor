@@ -56,7 +56,7 @@ public class JarController extends FileBasedController {
         }
     }
 
-    @DeleteMapping("/{jarName}")
+    @DeleteMapping(value="/{jarName}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<myAnswer> deleteJar(@PathVariable("jarName") String jarName) {
         File dest = new File(baseFolder, jarName);
         if (!dest.exists()) {
@@ -67,7 +67,7 @@ public class JarController extends FileBasedController {
         return ResponseEntity.status(HttpStatus.OK).body(new myAnswer(message));
     }
 
-    class myAnswer {
+    public class myAnswer {
 
         String message;
 

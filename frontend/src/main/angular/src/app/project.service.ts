@@ -15,17 +15,24 @@ export class ProjectService {
     let body = res;
     return body || [];
   }
-  
+
   getProjects(): Observable<any> {
     return this.http.get(endpoint + 'projects').pipe(
       map(this.extractData));
   }
-  newProject(): Observable<any>{
-    return this.http.get(endpoint+'projects/new').pipe(
+  newProject(): Observable<any> {
+    return this.http.get(endpoint + 'projects/new').pipe(
       map(this.extractData)
     );
   }
-  getProject  (id:String): Observable<Project> {
+  getProject(id: String): Observable<Project> {
     return this.http.get<Project>(
-      endpoint+'project/'+id);
-  }}
+      endpoint + 'project/' + id);
+  }
+  saveProject(project: any): Observable<HttpResponse<any>> {
+    return this.http.put(endpoint + "projects", project, { observe: 'response' });
+  }
+  deleteProject(id: String) {
+    return this.http.delete(endpoint + "project/" + id, undefined);
+  }
+}

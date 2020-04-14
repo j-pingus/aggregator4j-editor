@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<aggregator4j>
+<package name="lu.jpingus.aggregator4jeditor.backend.model"/>
+<function namespace="e" registerClass="java.lang.String"/>
+<class context="abcdef" name="lu.jpingus.aggregator4jeditor.backend.model.Project">
+<collect to="payloads" what="'hello'" when="dsqdqs"/>
+<collect field="jsonPayload" to="payloads" when="dsqdqs"/>
+</class>
+</aggregator4j>

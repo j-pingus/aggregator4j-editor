@@ -9,7 +9,7 @@ export class JsonInputComponent {
   @Input()
   json: FormControl;
   value: String;
-  validJson:boolean;
+  validJson: boolean;
   invalidJsonMessage: any;
   constructor() {
     //this.json.registerOnChange(this.ngOnChanges)
@@ -17,14 +17,15 @@ export class JsonInputComponent {
   ngOnChanges(change: SimpleChanges) {
     if (change.json) {
       let temp = change.json.currentValue as FormControl;
-      temp.registerOnChange(this.controlChange(this));
+      temp.registerOnChange((change) => this.controlChange(change));
     }
   }
-  controlChange(ref: JsonInputComponent) {
-    let localRef = ref;
-    return (change: any) => {
-      localRef.value = JSON.stringify(JSON.parse(change),undefined,'\t');
-    };
+  controlChange(change) {
+    try {
+      this.value = JSON.stringify(JSON.parse(change), undefined, '\t');
+    } catch (error) {
+      console.error(error);
+    }
   }
   // change events from the textarea
   onChange(event) {
@@ -33,12 +34,12 @@ export class JsonInputComponent {
     try {
       // parse it to json
       let data = JSON.parse(newValue);
-      this.validJson=true;
+      this.validJson = true;
       this.json.setValue(JSON.stringify(data));
 
     } catch (ex) {
-      this.validJson=false;
-      this.invalidJsonMessage=ex.message;
+      this.validJson = false;
+      this.invalidJsonMessage = ex.message;
     }
   }
 }

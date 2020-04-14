@@ -1,7 +1,7 @@
 <div [formGroup]="config" style="border: 1px solid blue">
-    <input formControlName="analysedPackage"/>
+    <input formControlName="analysedPackage" />
     <div style="border: 1px solid red;">
-        <h3>functions</h3>
+        <h2>functions</h2>
         <div *ngFor="let function of functions.controls; index as i" [formGroup]="function">
             {{i+1}} <label>namespace</label><input formControlName="namespace" />
             <label>class to register</label><input formControlName="registerClass" />
@@ -10,11 +10,40 @@
         <button (click)="addFunction()">+</button>
     </div>
     <div style="border:1px solid green">
-        <h3>classes</h3>
+        <h2>classes</h2>
         <div *ngFor="let clazz of classes.controls; index as i" [formGroup]="clazz">
-            {{i+1}} <label>context</label><input formControlName="classContext"/>
-            <label>name</label><input formControlName="className"/>
+            {{i+1}} <label>context</label><input formControlName="classContext" />
+            <label>name</label><input formControlName="className" />
             <button (click)="removeClass(i)">X</button>
+            <h3>Collects</h3>
+            <div *ngFor="let collect of clazz.get('collectList').controls; index as j" [formGroup]="collect"
+                style="border-color: chartreuse;">
+                {{j+1}} <label>field</label><input formControlName="field" />
+                <label>what</label><input formControlName="what" />
+                <label>to</label><input formControlName="to" />
+                <label>when</label><input formControlName="when" />
+                <button (click)="clazz.get('collectList').removeAt(j)">X</button>
+            </div>
+            <h3>Executes</h3>
+            <div *ngFor="let execute of clazz.get('executeList').controls; index as j" [formGroup]="execute"
+                style="border-color: rgb(17, 180, 185);">
+                {{j+1}} <label>field</label><input formControlName="field" />
+                <label>jexl</label><input formControlName="jexl" />
+                <label>when</label><input formControlName="when" />
+                <button (click)="clazz.get('executeList').removeAt(j)">X</button>
+            </div>
+            <h3>Variables</h3>
+            <div *ngFor="let aVariable of clazz.get('variableList').controls; index as j" [formGroup]="aVariable"
+                style="border-color: rgb(160, 96, 53);">
+                {{j+1}} <label>field</label><input formControlName="field" />
+                <label>variable</label><input formControlName="variable" />
+                <button (click)="clazz.get('variableList').removeAt(j)">X</button>
+            </div>
+            <div>
+                <button (click)="clazz.get('executeList').addNew()" mat-tooltip="add new execute">+e</button>
+                <button (click)="clazz.get('collectList').addNew()" mat-tooltip="add new collect">+c</button>
+                <button (click)="clazz.get('variableList').addNew()" mat-tooltip="add new variable">+v</button>
+            </div>
         </div>
         <button (click)="addClass()">+</button>
     </div>

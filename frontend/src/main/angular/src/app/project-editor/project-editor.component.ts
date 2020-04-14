@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../project.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { Project } from '../model/model';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { A4jFunction, A4jExecute, A4jCollect, A4jVariable } from '../model/model';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormMultiplier } from '../form-multiplier';
+
 @Component({
   selector: 'app-project-editor',
   templateUrl: './project-editor.component.html',
@@ -11,22 +15,33 @@ import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 })
 export class ProjectEditorComponent implements OnInit {
 
-  project: Project;
   control: FormGroup;
-
-  constructor(private service: ProjectService, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+  error: String;
+  constructor(private service: ProjectService, private route: ActivatedRoute,
+    private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
     this.control = formBuilder.group({
       name: '',
       id: '',
       configuration: formBuilder.group({
-        functionList: formBuilder.array([]),
-        classList: formBuilder.array([]),
+        functionList: new FormMultiplier(() => this.formBuilder.group(new A4jFunction())),
+        classList: new FormMultiplier(()=>this.addClass()),
         analysedPackage: ''
-      }), 
+      }),
       jsonPayload: '',
       className: ''
-    }
-    )
+    });
+
+  }
+
+  addClass(): FormGroup {
+    return this.formBuilder.group({
+      classContext: '',
+      className: '',
+      executeList: new FormMultiplier(() => this.formBuilder.group(new A4jExecute())),
+      collectList: new FormMultiplier(() => this.formBuilder.group(new A4jCollect())),
+      variableList: new FormMultiplier(() => this.formBuilder.group(new A4jVariable()))
+
+    });
   }
 
   ngOnInit(): void {
@@ -34,13 +49,25 @@ export class ProjectEditorComponent implements OnInit {
       switchMap((params: ParamMap) =>
         this.service.getProject(params.get('id')))
     ).subscribe(project => {
-      this.project = project;
       this.control.patchValue(project);
+      this.control.valueChanges.pipe(debounceTime(1000))
+        .subscribe(event => {
+          this.error = "";
+          this.service.saveProject(this.control.value).subscribe(
+            response => {
+              this.snackBar.open("Form saved ", null, { duration: 400 });
+            },
+            error => {
+              console.log(error);
+              this.error = error.error.message;
+              this.snackBar.open("Form not saved ", null, { duration: 1400 });
+            });
+        });
       console.log(this.control);
     }
     )
   }
-  value(){
+  value() {
     console.log(this.control.value);
   }
 }

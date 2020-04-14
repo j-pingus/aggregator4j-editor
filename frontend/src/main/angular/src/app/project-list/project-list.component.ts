@@ -10,14 +10,14 @@ import { Router } from '@angular/router';
 export class ProjectListComponent implements OnInit {
   projects: any = [];
 
-  constructor(private projectService:ProjectService, private router:Router) { }
+  constructor(private service:ProjectService, private router:Router) { }
 
   ngOnInit(): void {
     this.getProjects();
   }
   getProjects() {
     this.projects = [];
-    this.projectService.getProjects().subscribe((data: {}) => {
+    this.service.getProjects().subscribe((data: {}) => {
       console.log(data);
       this.projects = data;
     });
@@ -27,12 +27,11 @@ export class ProjectListComponent implements OnInit {
     this.router.navigateByUrl('project/'+project.id);
   }
   newProject(){
-    this.projectService.newProject().subscribe((project) => {
+    this.service.newProject().subscribe((project) => {
       this.router.navigateByUrl('project/'+project.id);
     });
   }
   delete(project){
-    console.log("delete");
-    console.log(project);
+    this.service.deleteProject(project.id);
   }
 }

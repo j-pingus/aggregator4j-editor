@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { Function, Class } from '../model/model';
+import { A4jFunction, A4jClass } from '../model/model';
+import { FormMultiplier } from '../form-multiplier';
 @Component({
   selector: 'a4j-config-editor',
   templateUrl: './config-editor.component.html',
@@ -9,27 +10,23 @@ import { Function, Class } from '../model/model';
 export class ConfigEditorComponent implements OnInit {
   @Input()
   config:FormGroup;
-  functions:FormArray;
-  classes:FormArray;
+  functions:FormMultiplier;
+  classes:FormMultiplier;
   constructor(private fb:FormBuilder) {
   }
 
   ngOnInit(): void {
-    this.functions=this.config.get('functionList') as FormArray;
-    this.classes=this.config.get('classList') as FormArray;
+    this.functions=this.config.get('functionList') as FormMultiplier;
+    this.classes=this.config.get('classList') as FormMultiplier;
   }
   addFunction(){
-    this.functions.push(
-      this.fb.group(new Function())
-    );
+    this.functions.addNew();
   }
   removeFunction(i:number){
     this.functions.removeAt(i);
   }
   addClass(){
-    this.classes.push(
-      this.fb.group(new Class())
-    );
+    this.classes.addNew();
   }
   removeClass(i:number){
     this.classes.removeAt(i);

@@ -4,5 +4,7 @@
     <a4j-config-editor [config]="control.get('configuration')"></a4j-config-editor>
     <json-input [json]="control.get('jsonPayload')"></json-input>
 </div>
-
+<span style="color: red">
+    {{error}}
+</span>
 {{control.value | json }}

@@ -2,20 +2,18 @@ package lu.jpingus.aggregator4jeditor.backend.resources;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.jpingus.AggregatorContext;
+import com.github.jpingus.ConfigurationFactory;
 import com.github.jpingus.model.Aggregator4j;
 import lombok.extern.slf4j.Slf4j;
 import lu.jpingus.aggregator4jeditor.backend.model.Project;
 import lu.jpingus.aggregator4jeditor.backend.model.ProjectReference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +36,13 @@ public class ProjectController extends FileBasedController {
         ret.setConfiguration(new Aggregator4j());
         ret.setClassName("");
         ret.setJsonPayload("{}");
-        save(ret);
+        saveFile(ret);
         return ret;
 
+    }
+    @PutMapping("projects")
+    public void save(@RequestBody Project project) throws IOException {
+        saveFile(project);
     }
     @GetMapping("project/{id}")
     public ResponseEntity<Project> read(@PathVariable("id")String id){
@@ -55,7 +57,15 @@ public class ProjectController extends FileBasedController {
         }else{
             return ResponseEntity.status(404).body(null);
         }
-
+    }
+    @DeleteMapping("project/{id}")
+    public void delete(@PathVariable("id")String id){
+        File projectJson=new File(baseFolder,id+".json");
+        if(projectJson.exists()){
+            if(!projectJson.delete())
+                throw new Error("Could not delete project with id "+id);
+        }
+        throw new Error("Project with id "+id+" not found");
     }
     @GetMapping("projects")
     public List<ProjectReference> getProjectReferences() {
@@ -76,9 +86,14 @@ public class ProjectController extends FileBasedController {
         return mapper.readValue(json, modelClass);
     }
 
-    private void save(Project project) throws IOException {
+    private void saveFile(Project project) throws IOException {
         File toSave = new File(baseFolder, project.getId() + ".json");
+        File toSaveXml = new File(baseFolder, project.getId() + ".xml");
+
         ObjectMapper mapper = new ObjectMapper();
         mapper.writerFor(Project.class).writeValue(toSave, project);
+
+        AggregatorContext context = ConfigurationFactory.buildAggregatorContext(project.getConfiguration());
+        ConfigurationFactory.extractConfig(context,new FileOutputStream(toSaveXml));
     }
 }

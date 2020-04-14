@@ -6,33 +6,33 @@ export class Project {
     className : String = '';
 }    
 export class Aggregator4j {
-    functionList : Function[]=new Function[0];
-    classList : Class[]=new Class[0];
+    functionList : A4jFunction[]=new A4jFunction[0];
+    classList : A4jClass[]=new A4jClass[0];
     analysedPackage : String = '';
 }
-export class Function {
-    registerClass : String = '';
+export class A4jFunction {
+    registerClass : String = ''; 
     namespace : String = '';
 }
-export class Class {
+export class A4jClass {
     classContext : String = '';
     className : String = '';
-    executeList : Execute []= [];
-    collectList : Collect []= [];
-    variableList : Variable []= [];
+    executeList : A4jExecute []= [];
+    collectList : A4jCollect []= [];
+    variableList : A4jVariable []= [];
 }
-export class Execute {
+export class A4jExecute {
     jexl : String = '';
     when : String = '';
     field : String = '';
 }
-export class Collect {
+export class A4jCollect {
     field : String = '';
     what : String = '';
     to : String = '';
     when : String = '';
 }
-export class Variable {
+export class A4jVariable {
     field : String = '';
     variable : String = '';
 }
