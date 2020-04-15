@@ -4,8 +4,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatCardModule } from '@angular/material/card';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -53,7 +51,6 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     BrowserModule,
     HttpClientModule,
-    MatSliderModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     LayoutModule,
@@ -65,7 +62,6 @@ const appRoutes: Routes = [
     MatListModule,
     MatTooltipModule,
     MatSnackBarModule,
-    MatCardModule,
     MatTabsModule,
     MatInputModule
   ],
