@@ -16,5 +16,8 @@
 <variable field="this.id" name="a"/>
 <variable field="this.activityId" name="b"/>
 </class>
-<class context="" name="lu.jpingus.aggregator4jeditor.backend.model.ProjectReference"/>
+<class context="" name="lu.jpingus.aggregator4jeditor.backend.model.ProjectReference">
+<collect to="" what=""/>
+<collect field="" to=""/>
+</class>
 </aggregator4j>
