@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatCardModule } from '@angular/material/card';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -22,6 +23,8 @@ import { ProjectEditorComponent } from './project-editor/project-editor.componen
 import { ConfigEditorComponent } from './config-editor/config-editor.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { JsonInputComponent } from './json-input/json-input.component'
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatInputModule} from '@angular/material/input';
 const appRoutes: Routes = [
   {
     path: 'jars',
@@ -61,7 +64,10 @@ const appRoutes: Routes = [
     MatIconModule,
     MatListModule,
     MatTooltipModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatCardModule,
+    MatTabsModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
