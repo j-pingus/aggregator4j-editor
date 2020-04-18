@@ -7,6 +7,7 @@
                     <mat-label>project name</mat-label>
                     <input matInput formControlName="name" />
                 </mat-form-field>
+                <select-jar (jarNameChanged)="jarNameChanged($event)" [control]="control.get('jarName')"></select-jar>
                 <mat-slide-toggle class="topright" color="primary" [checked]="debug" (change)="debugMode($event)">
                     debug
                 </mat-slide-toggle>
@@ -17,7 +18,7 @@
         <mat-tab label="Configure">
             <mat-card>
                 <mat-card-content>
-                    <a4j-config-editor [config]="control.get('configuration')"></a4j-config-editor>
+                    <a4j-config-editor [jarName]="jarName" [config]="control.get('configuration')"></a4j-config-editor>
                 </mat-card-content>
             </mat-card>
         </mat-tab>

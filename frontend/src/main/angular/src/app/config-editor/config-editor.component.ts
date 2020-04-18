@@ -10,6 +10,10 @@ import { FormMultiplier } from '../form-multiplier';
 export class ConfigEditorComponent implements OnInit {
   @Input()
   config: FormGroup;
+  @Input()
+  public jarName:String;
+  public packageName:String;
+
   functions: FormMultiplier;
   classes: FormMultiplier;
   public filterClass:String='';
@@ -19,6 +23,9 @@ export class ConfigEditorComponent implements OnInit {
   ngOnInit(): void {
     this.functions = this.config.get('functionList') as FormMultiplier;
     this.classes = this.config.get('classList') as FormMultiplier;
+  }
+  setPackage(name:String){
+    this.packageName=name;
   }
   addFunction() {
     this.functions.addNew();

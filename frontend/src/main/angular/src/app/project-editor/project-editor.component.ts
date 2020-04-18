@@ -18,11 +18,13 @@ export class ProjectEditorComponent implements OnInit {
   debug: boolean = false;
   control: FormGroup;
   error: String;
+  jarName:String;
   constructor(private service: ProjectService, private route: ActivatedRoute,
     private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
     this.control = formBuilder.group({
       name: '',
       id: '',
+      jarName: '',
       configuration: formBuilder.group({
         functionList: new FormMultiplier(() => this.formBuilder.group(new A4jFunction())),
         classList: new FormMultiplier(() => this.addClass()),
@@ -44,7 +46,9 @@ export class ProjectEditorComponent implements OnInit {
 
     });
   }
-
+  jarNameChanged(jarName:String){
+    this.jarName=jarName;
+  }
   ngOnInit(): void {
     this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>

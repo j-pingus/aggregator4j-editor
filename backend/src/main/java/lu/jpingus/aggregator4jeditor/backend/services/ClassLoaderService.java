@@ -1,22 +1,35 @@
 package lu.jpingus.aggregator4jeditor.backend.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 @Service
-class ClassLoaderService {
+@Slf4j
+public class ClassLoaderService {
     private static final ConcurrentHashMap<File, ClassLoaderReference> classLoaders = new ConcurrentHashMap<>();
 
-    List<String> getClasses(File jarFile, String packageName) {
+    private static String getFieldNameFromGetterMethod(Method m) {
+        String name = m.getName().substring(3);
+        name = Character.toLowerCase(name.charAt(0)) + name.substring(1);
+        return name;
+    }
+
+    private ClassLoaderReference getClassLoaderReference(File jarFile) {
         long timestamp = jarFile.lastModified();
         ClassLoaderReference reference = classLoaders.get(jarFile);
         if (reference == null || reference.timestamp == timestamp || reference.classes == null) {
@@ -26,8 +39,55 @@ class ClassLoaderService {
             }
             if (reference.timestamp != timestamp) {
                 reference.timestamp = timestamp;
+                reference.classes = null;
+                reference.classLoader = null;
+                reference.packages = null;
             }
-            reference.classes = new ArrayList<String>();
+        }
+        return reference;
+    }
+
+    public Set<String> getFields(File jarFile, String className) throws MalformedURLException {
+        Set<String> ret = new HashSet<>();
+        try {
+            Class loadedClass = loadClass(jarFile,className);
+            while (loadedClass != null && loadedClass != Object.class) {
+                ret.addAll(
+                        Arrays.stream(loadedClass.getDeclaredFields())
+                                .filter(f -> Modifier.isPublic(f.getModifiers()))
+                                .map(Field::getName)
+                                .collect(Collectors.toList())
+                );
+                ret.addAll(
+                        Arrays.stream(loadedClass.getMethods())
+                                .filter(m -> Modifier.isPublic(m.getModifiers()))
+                                .filter(m -> m.getName().startsWith("get"))
+                                .filter(m -> m.getParameterCount() == 0)
+                                .map(ClassLoaderService::getFieldNameFromGetterMethod)
+                                .filter(s -> !"class".equals(s))
+                                .collect(Collectors.toList())
+                );
+                loadedClass = loadedClass.getSuperclass();
+            }
+
+        } catch (ClassNotFoundException e) {
+            log.error("Error getting fields from " + jarFile.getName() + "/" + className, e);
+        }
+        return ret;
+    }
+
+    public List<String> getPackages(File jarFile) {
+        if (getClassLoaderReference(jarFile).packages == null)
+            getClasses(jarFile, "");
+        return getClassLoaderReference(jarFile).packages;
+
+    }
+
+    public List<String> getClasses(File jarFile, String packageNameFilter) {
+        ClassLoaderReference reference = getClassLoaderReference(jarFile);
+        if (reference.classes == null) {
+            reference.classes = new ArrayList<>();
+            reference.packages = new ArrayList<>();
             ZipInputStream zip;
             try {
                 zip = new ZipInputStream(new FileInputStream(jarFile));
@@ -36,6 +96,9 @@ class ClassLoaderService {
                         // This ZipEntry represents a class. Now, what class does it represent?
                         String className = entry.getName().replace('/', '.'); // including ".class"
                         reference.classes.add(className.substring(0, className.length() - ".class".length()));
+                    } else if (entry.isDirectory() && !entry.getName().startsWith("META-INF")) {
+                        String packageName = entry.getName().replace('/', '.');
+                        reference.packages.add(packageName.substring(0, packageName.length() - 1));
                     }
                 }
                 zip.close();
@@ -44,13 +107,26 @@ class ClassLoaderService {
             }
         }
         return reference.classes.stream()
-                .filter(s -> s.startsWith(packageName))
+                .filter(s -> s.startsWith(packageNameFilter))
                 .collect(Collectors.toList());
+    }
+
+    public Class loadClass(File jarFile, String name) throws MalformedURLException, ClassNotFoundException {
+        ClassLoaderReference reference = getClassLoaderReference(jarFile);
+        if (reference.classLoader == null) {
+            reference.classLoader = new URLClassLoader(
+                    new URL[]{jarFile.toURI().toURL()},
+                    this.getClass().getClassLoader()
+            );
+        }
+        return reference.classLoader.loadClass(name);
+
     }
 
     class ClassLoaderReference {
         long timestamp;
         List<String> classes;
+        List<String> packages;
         ClassLoader classLoader;
     }
 }

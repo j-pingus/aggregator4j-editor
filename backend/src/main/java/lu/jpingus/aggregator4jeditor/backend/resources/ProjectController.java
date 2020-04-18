@@ -8,6 +8,8 @@ import com.github.jpingus.model.Aggregator4j;
 import lombok.extern.slf4j.Slf4j;
 import lu.jpingus.aggregator4jeditor.backend.model.Project;
 import lu.jpingus.aggregator4jeditor.backend.model.ProjectReference;
+import lu.jpingus.aggregator4jeditor.backend.services.ClassLoaderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +29,8 @@ public class ProjectController extends FileBasedController {
     public ProjectController(@Value("${editor.projectfolder}") String jarFolderPath) {
         super(jarFolderPath);
     }
-
+    @Autowired
+    ClassLoaderService classLoaderService;
     @GetMapping("projects/new")
     public Project newProject() throws IOException {
         Project ret = new Project();
@@ -92,8 +95,9 @@ public class ProjectController extends FileBasedController {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.writerFor(Project.class).writeValue(toSave, project);
-
+        /*
         AggregatorContext context = ConfigurationFactory.buildAggregatorContext(project.getConfiguration());
         ConfigurationFactory.extractConfig(context,new FileOutputStream(toSaveXml));
+        */
     }
 }

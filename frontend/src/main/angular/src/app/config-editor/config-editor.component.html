@@ -8,10 +8,8 @@
                 package boundary
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <mat-form-field class="full">
-            <mat-label>Analysed package</mat-label>
-            <input matInput formControlName="analysedPackage" />
-        </mat-form-field>
+        <select-package [control]="config.get('analysedPackage')" [jarName]="jarName"
+            (packageChanged)="setPackage($event)"></select-package>
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -34,10 +32,7 @@
                         <mat-label>namespace</mat-label>
                         <input matInput formControlName="namespace" />
                     </mat-form-field>
-                    <mat-form-field class="half">
-                        <mat-label>registered class</mat-label>
-                        <input matInput formControlName="registerClass" />
-                    </mat-form-field>
+                    <select-class [jarName]="jarName" [packageName]="packageName" [control]="function.get('registerClass')"></select-class>
                     <button mat-icon-button color="warn" (click)="removeFunction(i)">
                         <mat-icon>delete</mat-icon>
                     </button>
@@ -52,7 +47,7 @@
             </mat-panel-title>
             <mat-panel-description>
                 configure actions on your model
-               
+
             </mat-panel-description>
         </mat-expansion-panel-header>
         <div class="container">
@@ -60,7 +55,7 @@
                 matTooltip="configure another class" matTooltipPosition="right">
                 <mat-icon>add</mat-icon>
             </button>
-            <mat-card *ngFor="let clazz of classes.controls; index as i" [formGroup]="clazz" >
+            <mat-card *ngFor="let clazz of classes.controls; index as i" [formGroup]="clazz">
                 <mat-card-content>
                     <div class="container">
                         <button class="topright" style="size: 50%;" mat-mini-fab color="warn" (click)="removeClass(i)">

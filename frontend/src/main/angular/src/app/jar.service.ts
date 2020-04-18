@@ -19,9 +19,14 @@ export class JarService {
     let body = res;
     return body || [];
   }
-  getJars(): Observable<any> {
-    return this.http.get(endpoint + 'jars').pipe(
-      map(this.extractData));
+  getJars(): Observable<String[]> {
+    return this.http.get<String[]>(endpoint + 'jars').pipe();
+  }
+  getPackages(jarName:String): Observable<String[]> {
+    return this.http.get<String[]>(endpoint + 'jars/'+jarName+'/packages').pipe();
+  }
+  getClasses(jarName:String,packageFilter:String): Observable<String[]> {
+    return this.http.get<String[]>(endpoint + 'jars/'+jarName+'/classes?packageFilter='+packageFilter).pipe();
   }
   deleteJar(jar): Observable<any>{
     return this.http.delete(endpoint+'jars/'+jar).pipe(map((this.extractData)));

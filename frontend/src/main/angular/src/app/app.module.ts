@@ -25,8 +25,11 @@ import { JsonInputComponent } from './json-input/json-input.component'
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
-import { MatGridListModule } from '@angular/material/grid-list';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { ListClassesComponent } from './select-jar/select-jar.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { SelectPackageComponent } from './select-package/select-package.component';
+import { SelectClassComponent } from './select-class/select-class.component'
 const appRoutes: Routes = [
   {
     path: 'jars',
@@ -49,7 +52,10 @@ const appRoutes: Routes = [
     ProjectEditorComponent,
     ConfigEditorComponent,
     ProjectListComponent,
-    JsonInputComponent
+    JsonInputComponent,
+    ListClassesComponent,
+    SelectPackageComponent,
+    SelectClassComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -70,7 +76,8 @@ const appRoutes: Routes = [
     MatInputModule,
     MatSlideToggleModule,
     MatCardModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]

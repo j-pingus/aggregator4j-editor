@@ -9,7 +9,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   styleUrls: ['./jar-list.component.css']
 })
 export class JarListComponent implements OnInit {
-  jars: any = [];
+  jars: String[] = [];
   selectedFiles: FileList;
   currentFileUpload: File;
   progress: { percentage: number } = { percentage: 0 };
@@ -25,7 +25,7 @@ export class JarListComponent implements OnInit {
   }
   getJars() {
     this.jars = [];
-    this.jarService.getJars().subscribe((data: {}) => {
+    this.jarService.getJars().subscribe((data) => {
       console.log(data);
       this.jars = data;
     });
