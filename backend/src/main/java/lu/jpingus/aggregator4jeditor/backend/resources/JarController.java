@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -66,7 +67,14 @@ public class JarController extends FileBasedController {
         String message = jarName + " deleted";
         return ResponseEntity.status(HttpStatus.OK).body(new myAnswer(message));
     }
-
+    @GetMapping("/{jarName}/classes")
+    public ResponseEntity<List<String>> getClasses(@PathVariable("jarName")String jarName){
+        File dest = new File(baseFolder, jarName);
+        if (!dest.exists()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new ArrayList<>());
+    }
     public class myAnswer {
 
         String message;

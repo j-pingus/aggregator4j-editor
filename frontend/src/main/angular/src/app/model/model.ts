@@ -1,6 +1,7 @@
 export class Project {
     id : String = '';
     name : String = '';
+    jarName : String = '';
     configuration : Aggregator4j = new Aggregator4j;
     jsonPayload : '{}';
     className : String = '';

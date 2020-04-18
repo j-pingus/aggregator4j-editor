@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <aggregator4j>
 <package name="lu.jpingus.aggregator4jeditor.backend.model"/>
-<function namespace="zzzz" registerClass="java.lang.String"/>
+<function namespace="" registerClass="lu.jpingus.aggregator4jeditor.backend.model.ProjectReference"/>
 <class context="" name="lu.jpingus.aggregator4jeditor.backend.model.Project">
 <collect to="" what=""/>
-<collect to="" what="this.id"/>
+<collect to="" what=""/>
 <collect to="" what=""/>
 <collect field="" to=""/>
 <collect field="" to=""/>
-<collect field="id" to=""/>
-<execute field="a" jexl="sum('something')"/>
-<execute field="b" jexl=""/>
-<execute field="c" jexl=""/>
-<variable field="this.mextroup" name="c"/>
-<variable field="this.id" name="a"/>
-<variable field="this.activityId" name="b"/>
-</class>
-<class context="" name="lu.jpingus.aggregator4jeditor.backend.model.ProjectReference">
-<collect to="" what=""/>
 <collect field="" to=""/>
+<execute field="" jexl=""/>
+<execute field="" jexl=""/>
+<execute field="" jexl=""/>
+<variable field="" name=""/>
 </class>
+<class context="" name="lu.jpingus.aggregator4jeditor.backend.model.ProjectReference"/>
 </aggregator4j>

@@ -11,4 +11,5 @@ public class Project extends ProjectReference{
     Aggregator4j configuration;
     String jsonPayload;
     String className;
+    String jarName;
 }

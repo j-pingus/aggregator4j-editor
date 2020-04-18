@@ -6,6 +6,7 @@ import { A4jFunction, A4jExecute, A4jCollect, A4jVariable } from '../model/model
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { FormMultiplier } from '../form-multiplier';
 
 @Component({
@@ -14,7 +15,7 @@ import { FormMultiplier } from '../form-multiplier';
   styleUrls: ['./project-editor.component.css']
 })
 export class ProjectEditorComponent implements OnInit {
-
+  debug: boolean = false;
   control: FormGroup;
   error: String;
   constructor(private service: ProjectService, private route: ActivatedRoute,
@@ -24,7 +25,7 @@ export class ProjectEditorComponent implements OnInit {
       id: '',
       configuration: formBuilder.group({
         functionList: new FormMultiplier(() => this.formBuilder.group(new A4jFunction())),
-        classList: new FormMultiplier(()=>this.addClass()),
+        classList: new FormMultiplier(() => this.addClass()),
         analysedPackage: ''
       }),
       jsonPayload: '',
@@ -69,5 +70,10 @@ export class ProjectEditorComponent implements OnInit {
   }
   value() {
     console.log(this.control.value);
+  }
+  debugMode(event: MatSlideToggleChange) {
+    console.log("debug");
+    console.log(event.checked);
+    this.debug = event.checked;
   }
 }

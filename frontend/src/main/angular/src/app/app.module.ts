@@ -16,13 +16,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { JarListComponent } from './jar-list/jar-list.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProjectEditorComponent } from './project-editor/project-editor.component';
 import { ConfigEditorComponent } from './config-editor/config-editor.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { JsonInputComponent } from './json-input/json-input.component'
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatInputModule} from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatExpansionModule } from '@angular/material/expansion';
 const appRoutes: Routes = [
   {
     path: 'jars',
@@ -63,7 +67,10 @@ const appRoutes: Routes = [
     MatTooltipModule,
     MatSnackBarModule,
     MatTabsModule,
-    MatInputModule
+    MatInputModule,
+    MatSlideToggleModule,
+    MatCardModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]

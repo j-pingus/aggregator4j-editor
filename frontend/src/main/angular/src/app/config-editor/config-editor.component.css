@@ -1,9 +1,25 @@
-div {
-    padding: 5px;
-    margin: 3px;
+
+.toprightAccordion{
+    position: absolute;
+    top: -52px;
+    right: 24px;
+}
+.topright{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+.topleft{
+    position: absolute;
+    top: -52px;
+    left: 0px;
+   
 }
 mat-form-field{
     padding: 3px;
+}
+.container{
+    position: relative;
 }
 .full {
     width:100%;
@@ -17,10 +33,11 @@ mat-form-field{
 .fourth{
     width: 24%;
 }
-.wrapper {
+.wrapper-me {
     border-radius: 12px;
     border: 1px solid rgba(0, 0, 0, 0.03);
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12);
     margin: 4px;
+    position: relative;
 }
 

@@ -1,10 +1,39 @@
-<div [formGroup]="control">
-    {{control.get('id').value}}
-    <input formControlName="name"/>
-    <a4j-config-editor [config]="control.get('configuration')"></a4j-config-editor>
-    <json-input [json]="control.get('jsonPayload')"></json-input>
+<div [formGroup]="control" width="100%">
+    <div>
+        <mat-card>
+            <mat-card-content>
+                <mat-form-field style="width: 250px;" matTooltip="id: {{control.get('id').value}}"
+                    matTooltipPosition="right">
+                    <mat-label>project name</mat-label>
+                    <input matInput formControlName="name" />
+                </mat-form-field>
+                <mat-slide-toggle class="topright" color="primary" [checked]="debug" (change)="debugMode($event)">
+                    debug
+                </mat-slide-toggle>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <mat-tab-group>
+        <mat-tab label="Configure">
+            <mat-card>
+                <mat-card-content>
+                    <a4j-config-editor [config]="control.get('configuration')"></a4j-config-editor>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+        <mat-tab label="Test">
+            <mat-card>
+                <mat-card-content>
+                    <json-input [json]="control.get('jsonPayload')"></json-input>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+    </mat-tab-group>
 </div>
+
 <span style="color: red">
     {{error}}
 </span>
-{{control.value | json }}
+<div *ngIf="debug">
+    {{control.value | json }}
+</div>

@@ -10,14 +10,14 @@ public abstract class FileBasedController {
     final File baseFolder;
 
     FileBasedController(String path) {
-        baseFolder = getOrCreateJarFolder(path, this.getClass().getSimpleName() + "-folder");
+        baseFolder = getOrCreateBaseFolder(path, this.getClass().getSimpleName() + "-folder");
     }
 
     public File getBaseFolder() {
         return baseFolder;
     }
 
-    private File getOrCreateJarFolder(String path, String defaultPath) {
+    private File getOrCreateBaseFolder(String path, String defaultPath) {
         if (StringUtils.isEmpty(path)) {
             path = defaultPath;
         }

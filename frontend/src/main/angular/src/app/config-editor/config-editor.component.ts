@@ -12,6 +12,7 @@ export class ConfigEditorComponent implements OnInit {
   config: FormGroup;
   functions: FormMultiplier;
   classes: FormMultiplier;
+  public filterClass:String='';
   constructor(private fb: FormBuilder) {
   }
 
