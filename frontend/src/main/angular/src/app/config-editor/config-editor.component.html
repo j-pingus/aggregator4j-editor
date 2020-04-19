@@ -14,7 +14,7 @@
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Functions
+                Functions ({{getFunctionList().length}})
             </mat-panel-title>
             <mat-panel-description>
                 register extensions to the language
@@ -26,13 +26,13 @@
                 <mat-icon>add</mat-icon>
             </button>
             <mat-list>
-                <mat-list-item *ngFor="let function of functions.controls; index as i" [formGroup]="function"
+                <mat-list-item *ngFor="let function of getFunctionList().controls; index as i" [formGroup]="function"
                     class="full">
                     <mat-form-field class="half">
                         <mat-label>namespace</mat-label>
                         <input matInput formControlName="namespace" />
                     </mat-form-field>
-                    <select-class [jarName]="jarName" [packageName]="packageName"
+                    <select-class [values]="classes"
                         [control]="function.get('registerClass')"></select-class>
                     <button mat-icon-button color="warn" (click)="removeFunction(i)">
                         <mat-icon>delete</mat-icon>
@@ -44,7 +44,7 @@
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Classes
+                Classes ({{getClassList().length}})
             </mat-panel-title>
             <mat-panel-description>
                 configure actions on your model
@@ -63,7 +63,7 @@
                 matTooltip="configure another class" matTooltipPosition="right">
                 <mat-icon>add</mat-icon>
             </button>
-            <mat-card *ngFor="let clazz of classes.controls 
+            <mat-card *ngFor="let clazz of getClassList().controls 
                 | filterControls : 'className' : classFilter.value 
                 | filterControls : undefined : valueFilter.value 
                 ; index as i" [formGroup]="clazz">
@@ -72,7 +72,7 @@
                         <button class="topright" style="size: 50%;" mat-mini-fab color="warn" (click)="removeClass(i)">
                             <mat-icon>delete</mat-icon>
                         </button>
-                        <class-editor [jarName]="jarName" [packageName]="packageName" [control]="clazz"
+                        <class-editor [jarName]="jarName" [classes]="classes" [control]="clazz"
                             [filterValue]="valueFilter.value"></class-editor>
                     </div>
                 </mat-card-content>

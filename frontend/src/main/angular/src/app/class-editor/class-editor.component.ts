@@ -12,9 +12,9 @@ export class ClassEditorComponent{
   @Input()
   public jarName:String;
   @Input()
-  public packageName:String;
-  @Input()
   public control:FormGroup;
+  @Input()
+  public classes:String []=[];
   @Input()
   public filterValue:String='';
   

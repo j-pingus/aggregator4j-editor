@@ -1,13 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms';
-import { A4jFunction, A4jClass } from '../model/model';
+import { Component,  Input } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { FormMultiplier } from '../form-multiplier';
+import { JarService } from '../jar.service';
 @Component({
   selector: 'a4j-config-editor',
   templateUrl: './config-editor.component.html',
   styleUrls: ['./config-editor.component.css']
 })
-export class ConfigEditorComponent implements OnInit {
+export class ConfigEditorComponent  {
   @Input()
   config: FormGroup;
   @Input()
@@ -15,33 +15,42 @@ export class ConfigEditorComponent implements OnInit {
   public packageName: String;
   public classFilter = new FormControl('');
   public valueFilter = new FormControl('');
-
-  functions: FormMultiplier;
-  classes: FormMultiplier;
+  public classes:String []=[];
   public filterClass: String = '';
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private service: JarService) {
   }
   setFilter(event){
     console.log(event);
   }
-  ngOnInit(): void {
-    this.functions = this.config.get('functionList') as FormMultiplier;
-    this.classes = this.config.get('classList') as FormMultiplier;
+  public getFunctionList():FormMultiplier{
+    return this.config.get('functionList') as FormMultiplier;
+  }
+  public getClassList():FormMultiplier{
+    return this.config.get('classList') as FormMultiplier;
   }
   setPackage(name: String) {
     this.packageName = name;
+    this.loadClasses(this.jarName,this.packageName);
   }
-  addFunction() {
-    this.functions.addNew();
+  loadClasses(jarName: String, packageName: String) {
+    this.classes = [];
+    if (jarName && packageName && jarName.endsWith('.jar'))
+      this.service.getClasses(jarName,packageName).subscribe((data) => {
+        console.log(data);
+        this.classes = data;
+      });
+  }
+addFunction() {
+    this.getFunctionList().addNew();
   }
   removeFunction(i: number) {
-    this.functions.removeAt(i);
+    this.getFunctionList().removeAt(i);
   }
   addClass() {
-    this.classes.addNew();
+    this.getClassList().addNew();
   }
   removeClass(i: number) {
-    this.classes.removeAt(i);
+    this.getClassList().removeAt(i);
   }
   getValue(group: FormGroup, field: string) {
     let control = group.get(field) as FormControl;
