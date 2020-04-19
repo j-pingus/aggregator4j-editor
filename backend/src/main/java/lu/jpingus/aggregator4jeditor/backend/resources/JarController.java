@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -78,6 +79,15 @@ public class JarController extends FileBasedController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(classLoaderService.getClasses(jarFile, packageFilter));
+    }
+
+    @GetMapping("/{jarName}/{className}/fields")
+    public ResponseEntity<List<String>> getFields(@PathVariable String jarName, @PathVariable String className) throws MalformedURLException {
+        File jarFile = new File(baseFolder, jarName);
+        if (!jarFile.exists()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(classLoaderService.getFields(jarFile, className));
     }
 
     @GetMapping("/{jarName}/packages")

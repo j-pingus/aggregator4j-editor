@@ -47,18 +47,18 @@ public class ClassLoaderService {
         return reference;
     }
 
-    public Set<String> getFields(File jarFile, String className) throws MalformedURLException {
-        Set<String> ret = new HashSet<>();
+    public List<String> getFields(File jarFile, String className) throws MalformedURLException {
+        Set<String> fields = new HashSet<>();
         try {
             Class loadedClass = loadClass(jarFile,className);
             while (loadedClass != null && loadedClass != Object.class) {
-                ret.addAll(
+                fields.addAll(
                         Arrays.stream(loadedClass.getDeclaredFields())
                                 .filter(f -> Modifier.isPublic(f.getModifiers()))
                                 .map(Field::getName)
                                 .collect(Collectors.toList())
                 );
-                ret.addAll(
+                fields.addAll(
                         Arrays.stream(loadedClass.getMethods())
                                 .filter(m -> Modifier.isPublic(m.getModifiers()))
                                 .filter(m -> m.getName().startsWith("get"))
@@ -73,6 +73,9 @@ public class ClassLoaderService {
         } catch (ClassNotFoundException e) {
             log.error("Error getting fields from " + jarFile.getName() + "/" + className, e);
         }
+        List<String>ret = new ArrayList<>();
+        ret.addAll(fields);
+        Collections.sort(ret);
         return ret;
     }
 
