@@ -5,6 +5,7 @@ public class InvoiceLine {
     public Double unitPrice;
     public Double price;
     public Integer vat;
+    public String description;
 
     public InvoiceLine() {
     }
