@@ -22,14 +22,17 @@ export class JarService {
   getJars(): Observable<String[]> {
     return this.http.get<String[]>(endpoint + 'jars').pipe();
   }
-  getPackages(jarName:String): Observable<String[]> {
-    return this.http.get<String[]>(endpoint + 'jars/'+jarName+'/packages').pipe();
+  getPackages(jarName: String): Observable<String[]> {
+    return this.http.get<String[]>(endpoint + 'jars/' + jarName + '/packages').pipe();
   }
-  getClasses(jarName:String,packageFilter:String): Observable<String[]> {
-    return this.http.get<String[]>(endpoint + 'jars/'+jarName+'/classes?packageFilter='+packageFilter).pipe();
+  getClasses(jarName: String, packageFilter: String): Observable<String[]> {
+    return this.http.get<String[]>(endpoint + 'jars/' + jarName + '/classes?packageFilter=' + packageFilter).pipe();
   }
-  deleteJar(jar): Observable<any>{
-    return this.http.delete(endpoint+'jars/'+jar).pipe(map((this.extractData)));
+  getFields(jarName: String, className: String): Observable<String[]> {
+    return this.http.get<String[]>(endpoint + 'jars/' + jarName + '/' + className + '/fields').pipe();
+  }
+  deleteJar(jar): Observable<any> {
+    return this.http.delete(endpoint + 'jars/' + jar).pipe(map((this.extractData)));
   }
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

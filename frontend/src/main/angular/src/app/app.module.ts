@@ -29,10 +29,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { ListClassesComponent } from './select-jar/select-jar.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SelectPackageComponent } from './select-package/select-package.component';
-import { SelectClassComponent } from './select-class/select-class.component'
+import { SelectClassComponent } from './select-class/select-class.component';
+import { SelectFieldComponent } from './select-field/select-field.component';
+import { ClassEditorComponent } from './class-editor/class-editor.component';
+import { FilterControlsPipe } from './filter-controls.pipe'
 const appRoutes: Routes = [
   {
-    path: 'jars',
+    path: 'jars', 
     component: JarListComponent
   },
   {
@@ -55,7 +58,10 @@ const appRoutes: Routes = [
     JsonInputComponent,
     ListClassesComponent,
     SelectPackageComponent,
-    SelectClassComponent
+    SelectClassComponent,
+    SelectFieldComponent,
+    ClassEditorComponent,
+    FilterControlsPipe
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

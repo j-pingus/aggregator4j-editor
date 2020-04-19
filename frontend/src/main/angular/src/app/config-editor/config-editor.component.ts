@@ -11,21 +11,25 @@ export class ConfigEditorComponent implements OnInit {
   @Input()
   config: FormGroup;
   @Input()
-  public jarName:String;
-  public packageName:String;
+  public jarName: String;
+  public packageName: String;
+  public classFilter = new FormControl('');
+  public valueFilter = new FormControl('');
 
   functions: FormMultiplier;
   classes: FormMultiplier;
-  public filterClass:String='';
+  public filterClass: String = '';
   constructor(private fb: FormBuilder) {
   }
-
+  setFilter(event){
+    console.log(event);
+  }
   ngOnInit(): void {
     this.functions = this.config.get('functionList') as FormMultiplier;
     this.classes = this.config.get('classList') as FormMultiplier;
   }
-  setPackage(name:String){
-    this.packageName=name;
+  setPackage(name: String) {
+    this.packageName = name;
   }
   addFunction() {
     this.functions.addNew();
@@ -40,7 +44,7 @@ export class ConfigEditorComponent implements OnInit {
     this.classes.removeAt(i);
   }
   getValue(group: FormGroup, field: string) {
-    let control=group.get(field) as FormControl;
+    let control = group.get(field) as FormControl;
     if (control)
       return control.value;
   }

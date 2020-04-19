@@ -1,0 +1,85 @@
+<select-class [jarName]="jarName" [packageName]="packageName" [control]="control.get('className')"
+    (valueChanged)="setClassName($event)"></select-class>
+<mat-form-field style="width: 35%;">
+    <mat-label>context</mat-label>
+    <input matInput formControlName="classContext" />
+</mat-form-field>
+<mat-tab-group>
+    <mat-tab label="Collects ({{(getCollectList().controls |
+        filterControls : undefined : filterValue).length}})">
+        <mat-list>
+            <mat-list-item *ngFor="let collect of getCollectList().controls |
+            filterControls : undefined : filterValue
+            ; index as j" [formGroup]="collect">
+                <select-field [values]="fields" [control]="collect.get('field')"></select-field>
+                <mat-form-field class="fourth">
+                    <mat-label>what to collect</mat-label>
+                    <input matInput formControlName="what" />
+                </mat-form-field>
+                <mat-form-field class="fourth">
+                    <mat-label>aggregator name</mat-label>
+                    <input matInput formControlName="to" />
+                </mat-form-field>
+                <mat-form-field class="fourth">
+                    <mat-label>condition to collect</mat-label>
+                    <input matInput formControlName="when" />
+                </mat-form-field>
+                <button mat-icon-button color="warn" (click)="getCollectList().removeAt(j)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-list-item>
+        </mat-list>
+        <button mat-icon-button color="primary" (click)="getCollectList().addNew()"
+            matTooltip="configure another collect for class" matTooltipPosition="right">
+            <mat-icon>add</mat-icon>
+        </button>
+    </mat-tab>
+    <mat-tab label="Executes ({{(getExecuteList().controls |
+        filterControls : undefined : filterValue).length}})">
+        <mat-list>
+            <mat-list-item *ngFor="let execute of getExecuteList().controls |
+            filterControls : undefined : filterValue
+            ;  index as j" [formGroup]="execute"
+                class="full">
+                <select-field [values]="fields" [control]="execute.get('field')"></select-field>
+                <mat-form-field class="third">
+                    <mat-label>expression to execute</mat-label>
+                    <input matInput formControlName="jexl" />
+                </mat-form-field>
+                <mat-form-field class="third">
+                    <mat-label>condition to execute</mat-label>
+                    <input matInput formControlName="when" />
+                </mat-form-field>
+                <button mat-icon-button color="warn" (click)="getExecuteList().removeAt(j)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-list-item>
+        </mat-list>
+        <button mat-icon-button color="primary" (click)="getExecuteList().addNew()"
+            matTooltip="configure another execute for class" matTooltipPosition="right">
+            <mat-icon>add</mat-icon>
+        </button>
+    </mat-tab>
+    <mat-tab label="Variables ({{(getVariableList().controls |
+        filterControls : undefined : filterValue).length}})">
+        <mat-list>
+            <mat-list-item *ngFor="let aVariable of getVariableList().controls |
+            filterControls : undefined : filterValue
+            ;  index as j" [formGroup]="aVariable"
+                class="full">
+                <mat-form-field class="half">
+                    <mat-label>variable name</mat-label>
+                    <input matInput formControlName="variable" />
+                </mat-form-field>
+                <select-field [values]="fields" [control]="aVariable.get('field')"></select-field>
+                <button mat-icon-button color="warn" (click)="getVariableList().removeAt(j)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-list-item>
+        </mat-list>
+        <button mat-icon-button color="primary" (click)="getVariableList().addNew()"
+            matTooltip="configure another variable for class" matTooltipPosition="right">
+            <mat-icon>add</mat-icon>
+        </button>
+    </mat-tab>
+</mat-tab-group>

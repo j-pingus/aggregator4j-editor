@@ -9,7 +9,7 @@
             </mat-panel-description>
         </mat-expansion-panel-header>
         <select-package [control]="config.get('analysedPackage')" [jarName]="jarName"
-            (packageChanged)="setPackage($event)"></select-package>
+            (valueChanged)="setPackage($event)"></select-package>
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -32,7 +32,8 @@
                         <mat-label>namespace</mat-label>
                         <input matInput formControlName="namespace" />
                     </mat-form-field>
-                    <select-class [jarName]="jarName" [packageName]="packageName" [control]="function.get('registerClass')"></select-class>
+                    <select-class [jarName]="jarName" [packageName]="packageName"
+                        [control]="function.get('registerClass')"></select-class>
                     <button mat-icon-button color="warn" (click)="removeFunction(i)">
                         <mat-icon>delete</mat-icon>
                     </button>
@@ -47,112 +48,32 @@
             </mat-panel-title>
             <mat-panel-description>
                 configure actions on your model
-
             </mat-panel-description>
         </mat-expansion-panel-header>
+        <mat-form-field>
+            <mat-label>filter className</mat-label>
+            <input matInput [formControl]="classFilter" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>filter anything</mat-label>
+            <input matInput [formControl]="valueFilter" />
+        </mat-form-field>
         <div class="container">
             <button mat-mini-fab class="toprightAccordion" color="primary" (click)="addClass()"
                 matTooltip="configure another class" matTooltipPosition="right">
                 <mat-icon>add</mat-icon>
             </button>
-            <mat-card *ngFor="let clazz of classes.controls; index as i" [formGroup]="clazz">
+            <mat-card *ngFor="let clazz of classes.controls 
+                | filterControls : 'className' : classFilter.value 
+                | filterControls : undefined : valueFilter.value 
+                ; index as i" [formGroup]="clazz">
                 <mat-card-content>
                     <div class="container">
                         <button class="topright" style="size: 50%;" mat-mini-fab color="warn" (click)="removeClass(i)">
                             <mat-icon>delete</mat-icon>
                         </button>
-                        <mat-form-field style="width: 60%;">
-                            <mat-label>class name</mat-label>
-                            <input matInput formControlName="className" />
-                        </mat-form-field>
-                        <mat-form-field style="width: 35%;">
-                            <mat-label>context</mat-label>
-                            <input matInput formControlName="classContext" />
-                        </mat-form-field>
-                        <mat-tab-group>
-                            <mat-tab label="Collects">
-                                <mat-list>
-                                    <mat-list-item *ngFor="let collect of clazz.get('collectList').controls; index as j"
-                                        [formGroup]="collect">
-                                        <mat-form-field class="fourth">
-                                            <mat-label>class field</mat-label>
-                                            <input matInput formControlName="field" />
-                                        </mat-form-field>
-                                        <mat-form-field class="fourth">
-                                            <mat-label>what to collect</mat-label>
-                                            <input matInput formControlName="what" />
-                                        </mat-form-field>
-                                        <mat-form-field class="fourth">
-                                            <mat-label>aggregator name</mat-label>
-                                            <input matInput formControlName="to" />
-                                        </mat-form-field>
-                                        <mat-form-field class="fourth">
-                                            <mat-label>condition to collect</mat-label>
-                                            <input matInput formControlName="when" />
-                                        </mat-form-field>
-                                        <button mat-icon-button color="warn"
-                                            (click)="clazz.get('collectList').removeAt(j)">
-                                            <mat-icon>delete</mat-icon>
-                                        </button>
-                                    </mat-list-item>
-                                </mat-list>
-                                <button mat-icon-button color="primary" (click)="clazz.get('collectList').addNew()"
-                                    matTooltip="configure another collect for class" matTooltipPosition="right">
-                                    <mat-icon>add</mat-icon>
-                                </button>
-                            </mat-tab>
-                            <mat-tab label="Executes">
-                                <mat-list>
-                                    <mat-list-item *ngFor="let execute of clazz.get('executeList').controls; index as j"
-                                        [formGroup]="execute" class="full">
-                                        <mat-form-field class="third">
-                                            <mat-label>field to store execution result</mat-label>
-                                            <input matInput formControlName="field" />
-                                        </mat-form-field>
-                                        <mat-form-field class="third">
-                                            <mat-label>expression to execute</mat-label>
-                                            <input matInput formControlName="jexl" />
-                                        </mat-form-field>
-                                        <mat-form-field class="third">
-                                            <mat-label>condition to execute</mat-label>
-                                            <input matInput formControlName="when" />
-                                        </mat-form-field>
-                                        <button mat-icon-button color="warn"
-                                            (click)="clazz.get('executeList').removeAt(j)">
-                                            <mat-icon>delete</mat-icon>
-                                        </button>
-                                    </mat-list-item>
-                                </mat-list>
-                                <button mat-icon-button color="primary" (click)="clazz.get('executeList').addNew()"
-                                    matTooltip="configure another execute for class" matTooltipPosition="right">
-                                    <mat-icon>add</mat-icon>
-                                </button>
-                            </mat-tab>
-                            <mat-tab label="Variables">
-                                <mat-list>
-                                    <mat-list-item
-                                        *ngFor="let aVariable of clazz.get('variableList').controls; index as j"
-                                        [formGroup]="aVariable" class="full">
-                                        <mat-form-field class="half">
-                                            <mat-label>variable name</mat-label>
-                                            <input matInput formControlName="variable" />
-                                        </mat-form-field>
-                                        <mat-form-field class="half">
-                                            <mat-label>expression to store in variable</mat-label>
-                                            <input matInput formControlName="field" />
-                                        </mat-form-field>
-                                        <button mat-icon-button color="warn"
-                                            (click)="clazz.get('variableList').removeAt(j)">
-                                            <mat-icon>delete</mat-icon>
-                                        </button>
-                                    </mat-list-item>
-                                </mat-list>
-                                <button mat-icon-button color="primary" (click)="clazz.get('variableList').addNew()"
-                                    matTooltip="configure another variable for class" matTooltipPosition="right">
-                                    <mat-icon>add</mat-icon>
-                                </button>
-                            </mat-tab>
-                        </mat-tab-group>
+                        <class-editor [jarName]="jarName" [packageName]="packageName" [control]="clazz"
+                            [filterValue]="valueFilter.value"></class-editor>
                     </div>
                 </mat-card-content>
             </mat-card>
