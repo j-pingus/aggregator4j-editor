@@ -110,7 +110,7 @@ public class ClassLoaderService {
             }
         }
         return reference.classes.stream()
-                .filter(s -> s.startsWith(packageNameFilter))
+                .filter(s -> s.startsWith(packageNameFilter==null?"":packageNameFilter))
                 .collect(Collectors.toList());
     }
 

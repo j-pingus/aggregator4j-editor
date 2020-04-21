@@ -7,7 +7,8 @@
                     <mat-label>project name</mat-label>
                     <input matInput formControlName="name" />
                 </mat-form-field>
-                <autocomplete [values]="jars" (valueChanged)="jarNameChanged($event)" [control]="control.get('jarName')"></autocomplete>
+                <autocomplete [values]="jars" (valueChanged)="jarNameChanged($event)"
+                    [control]="control.get('jarName')"></autocomplete>
                 <mat-slide-toggle class="topright" color="primary" [checked]="debug" (change)="debugMode($event)">
                     debug
                 </mat-slide-toggle>
@@ -25,6 +26,8 @@
         <mat-tab label="Test">
             <mat-card>
                 <mat-card-content>
+                    <autocomplete [values]="classes" placeholder="select main model class" [control]="control.get('className')"></autocomplete>
+                    <br/>
                     <json-input [json]="control.get('jsonPayload')"></json-input>
                 </mat-card-content>
             </mat-card>

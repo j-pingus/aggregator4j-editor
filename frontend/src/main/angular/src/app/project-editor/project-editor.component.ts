@@ -49,6 +49,7 @@ export class ProjectEditorComponent implements OnInit {
   }
   jarNameChanged(jarName: String) {
     this.jarName = jarName;
+    this.getClasses();
   }
   ngOnInit(): void {
     this.route.paramMap.pipe(
@@ -79,6 +80,13 @@ export class ProjectEditorComponent implements OnInit {
     this.jars = [];
     this.jarService.getJars().subscribe((data) => {
       this.jars = data;
+    });
+  }
+  public classes:String[]=[];
+  getClasses() {
+    this.classes = [];
+    this.jarService.getClasses(this.jarName).subscribe((data) => {
+      this.classes = data;
     });
   }
 

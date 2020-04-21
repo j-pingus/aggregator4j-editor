@@ -73,7 +73,7 @@ public class JarController extends FileBasedController {
     }
 
     @GetMapping("/{jarName}/classes")
-    public ResponseEntity<List<String>> getClasses(@PathVariable("jarName") String jarName, @RequestParam String packageFilter) {
+    public ResponseEntity<List<String>> getClasses(@PathVariable("jarName") String jarName, @RequestParam(required = false) String packageFilter) {
         File jarFile = new File(baseFolder, jarName);
         if (!jarFile.exists()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
