@@ -1,10 +1,11 @@
 <mat-form-field style="width:250px" class="example-full-width">
     <input type="text"
-           placeholder="choose a package"
+           [placeholder]="placeholder"
            aria-label="Number"
            matInput
            [formControl]="control"
-           [matAutocomplete]="auto">
+           [matAutocomplete]="auto"
+           (ngModelChange)="changedText($event)">
     <mat-autocomplete #auto="matAutocomplete">
       <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
         {{option}} 

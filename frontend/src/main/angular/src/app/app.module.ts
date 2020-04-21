@@ -26,13 +26,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { ListClassesComponent } from './select-jar/select-jar.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { SelectPackageComponent } from './select-package/select-package.component';
-import { SelectClassComponent } from './select-class/select-class.component';
-import { SelectFieldComponent } from './select-field/select-field.component';
 import { ClassEditorComponent } from './class-editor/class-editor.component';
-import { FilterControlsPipe } from './filter-controls.pipe'
+import { FilterControlsPipe } from './filter-controls.pipe';
+import { AutocompleteComponent } from './autocomplete/autocomplete.component'
 const appRoutes: Routes = [
   {
     path: 'jars', 
@@ -56,12 +53,9 @@ const appRoutes: Routes = [
     ConfigEditorComponent,
     ProjectListComponent,
     JsonInputComponent,
-    ListClassesComponent,
-    SelectPackageComponent,
-    SelectClassComponent,
-    SelectFieldComponent,
     ClassEditorComponent,
-    FilterControlsPipe
+    FilterControlsPipe,
+    AutocompleteComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

@@ -8,6 +8,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { FormMultiplier } from '../form-multiplier';
+import { JarService } from '../jar.service';
 
 @Component({
   selector: 'app-project-editor',
@@ -19,7 +20,7 @@ export class ProjectEditorComponent implements OnInit {
   control: FormGroup;
   error: String;
   jarName: String="";
-  constructor(private service: ProjectService, private route: ActivatedRoute,
+  constructor(private service: ProjectService,private jarService: JarService, private route: ActivatedRoute,
     private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
     this.control = formBuilder.group({
       name: '',
@@ -70,6 +71,14 @@ export class ProjectEditorComponent implements OnInit {
               this.snackBar.open("Form not saved ", null, { duration: 1400 });
             });
         });
+    });
+    this.getJars();
+  }
+  public jars:String[]=[];
+  getJars() {
+    this.jars = [];
+    this.jarService.getJars().subscribe((data) => {
+      this.jars = data;
     });
   }
 

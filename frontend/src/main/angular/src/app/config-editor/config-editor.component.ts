@@ -1,4 +1,4 @@
-import { Component,  Input, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { FormMultiplier } from '../form-multiplier';
 import { JarService } from '../jar.service';
@@ -7,45 +7,57 @@ import { JarService } from '../jar.service';
   templateUrl: './config-editor.component.html',
   styleUrls: ['./config-editor.component.css']
 })
-export class ConfigEditorComponent  {
+export class ConfigEditorComponent {
   @Input()
-  config: FormGroup=new FormGroup({});
+  config: FormGroup = new FormGroup({});
   @Input()
   public jarName: String;
   public packageName: String;
   public classFilter = new FormControl('');
   public valueFilter = new FormControl('');
-  public classes:String []=[];
+  public classes: String[] = [];
+  public packages: String[] = [];
   public filterClass: String = '';
-  constructor(private fb: FormBuilder,private service: JarService) {
+  constructor(private fb: FormBuilder, private service: JarService) {
   }
   ngOnChanges(change: SimpleChanges) {
-    if(change.jarName){
-      this.loadClasses(change.jarName.currentValue,this.packageName);
+    if (change.jarName) {
+      this.loadClasses(change.jarName.currentValue, this.packageName);
+      this.loadPackages(change.jarName.currentValue);
     }
   }
-  setFilter(event){
+  setFilter(event) {
     console.log(event);
   }
-  public getFunctionList():FormMultiplier{
+  public getFunctionList(): FormMultiplier {
     return this.config.get('functionList') as FormMultiplier;
   }
-  public getClassList():FormMultiplier{
+  public getClassList(): FormMultiplier {
     return this.config.get('classList') as FormMultiplier;
   }
   setPackage(name: String) {
     this.packageName = name;
-    this.loadClasses(this.jarName,this.packageName);
+    this.loadClasses(this.jarName, this.packageName);
   }
   loadClasses(jarName: String, packageName: String) {
     this.classes = [];
-    if (jarName && packageName && jarName.endsWith('.jar'))
-      this.service.getClasses(jarName,packageName).subscribe((data) => {
+    if (jarName && packageName !== undefined && jarName.endsWith('.jar')) {
+      this.service.getClasses(jarName, packageName).subscribe((data) => {
         console.log(data);
         this.classes = data;
       });
+    }
   }
-addFunction() {
+  loadPackages(jarName: String) {
+    this.packages = [];
+    if (jarName && jarName.endsWith('.jar')) {
+      this.service.getPackages(jarName).subscribe((data) => {
+        console.log(data);
+        this.packages = data;
+      });
+    }
+  }
+  addFunction() {
     this.getFunctionList().addNew();
   }
   removeFunction(i: number) {

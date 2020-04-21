@@ -8,8 +8,7 @@
                 package boundary
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <select-package [control]="config.get('analysedPackage')" [jarName]="jarName"
-            (valueChanged)="setPackage($event)"></select-package>
+        <autocomplete [values]="packages" [control]="config.get('analysedPackage')" (valueChanged)="setPackage($event)"></autocomplete>
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -32,8 +31,8 @@
                         <mat-label>namespace</mat-label>
                         <input matInput formControlName="namespace" />
                     </mat-form-field>
-                    <select-class [values]="classes"
-                        [control]="function.get('registerClass')"></select-class>
+                    <autocomplete [values]="classes" placeholder="choose a class"
+                        [control]="function.get('registerClass')"></autocomplete>
                     <button mat-icon-button color="warn" (click)="removeFunction(i)">
                         <mat-icon>delete</mat-icon>
                     </button>

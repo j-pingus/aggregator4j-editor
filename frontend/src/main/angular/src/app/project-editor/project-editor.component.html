@@ -7,7 +7,7 @@
                     <mat-label>project name</mat-label>
                     <input matInput formControlName="name" />
                 </mat-form-field>
-                <select-jar (valueChanged)="jarNameChanged($event)" [control]="control.get('jarName')"></select-jar>
+                <autocomplete [values]="jars" (valueChanged)="jarNameChanged($event)" [control]="control.get('jarName')"></autocomplete>
                 <mat-slide-toggle class="topright" color="primary" [checked]="debug" (change)="debugMode($event)">
                     debug
                 </mat-slide-toggle>
