@@ -18,7 +18,7 @@ export class ProjectEditorComponent implements OnInit {
   debug: boolean = false;
   control: FormGroup;
   error: String;
-  jarName:String;
+  jarName: String="";
   constructor(private service: ProjectService, private route: ActivatedRoute,
     private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
     this.control = formBuilder.group({
@@ -33,8 +33,8 @@ export class ProjectEditorComponent implements OnInit {
       jsonPayload: '',
       className: ''
     });
-
   }
+  
 
   addClass(): FormGroup {
     return this.formBuilder.group({
@@ -46,15 +46,17 @@ export class ProjectEditorComponent implements OnInit {
 
     });
   }
-  jarNameChanged(jarName:String){
-    this.jarName=jarName;
+  jarNameChanged(jarName: String) {
+    this.jarName = jarName;
   }
   ngOnInit(): void {
     this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
         this.service.getProject(params.get('id')))
     ).subscribe(project => {
+      console.log("just before patch");
       this.control.patchValue(project);
+      console.log("just after patch");
       this.control.valueChanges.pipe(debounceTime(1000))
         .subscribe(event => {
           this.error = "";
@@ -68,16 +70,10 @@ export class ProjectEditorComponent implements OnInit {
               this.snackBar.open("Form not saved ", null, { duration: 1400 });
             });
         });
-      console.log(this.control);
-    }
-    )
+    });
   }
-  value() {
-    console.log(this.control.value);
-  }
+
   debugMode(event: MatSlideToggleChange) {
-    console.log("debug");
-    console.log(event.checked);
     this.debug = event.checked;
   }
 }

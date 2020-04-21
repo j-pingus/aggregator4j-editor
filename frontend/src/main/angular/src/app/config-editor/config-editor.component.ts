@@ -1,4 +1,4 @@
-import { Component,  Input } from '@angular/core';
+import { Component,  Input, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { FormMultiplier } from '../form-multiplier';
 import { JarService } from '../jar.service';
@@ -9,7 +9,7 @@ import { JarService } from '../jar.service';
 })
 export class ConfigEditorComponent  {
   @Input()
-  config: FormGroup;
+  config: FormGroup=new FormGroup({});
   @Input()
   public jarName: String;
   public packageName: String;
@@ -18,6 +18,11 @@ export class ConfigEditorComponent  {
   public classes:String []=[];
   public filterClass: String = '';
   constructor(private fb: FormBuilder,private service: JarService) {
+  }
+  ngOnChanges(change: SimpleChanges) {
+    if(change.jarName){
+      this.loadClasses(change.jarName.currentValue,this.packageName);
+    }
   }
   setFilter(event){
     console.log(event);

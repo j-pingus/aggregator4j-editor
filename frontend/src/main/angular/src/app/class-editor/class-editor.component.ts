@@ -12,7 +12,7 @@ export class ClassEditorComponent{
   @Input()
   public jarName:String;
   @Input()
-  public control:FormGroup;
+  public control:FormGroup=new FormGroup({});
   @Input()
   public classes:String []=[];
   @Input()
