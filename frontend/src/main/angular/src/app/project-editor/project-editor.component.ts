@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { FormMultiplier } from '../form-multiplier';
 import { JarService } from '../jar.service';
+import { AggregatorService } from '../aggregator.service';
 
 @Component({
   selector: 'app-project-editor',
@@ -18,9 +19,10 @@ import { JarService } from '../jar.service';
 export class ProjectEditorComponent implements OnInit {
   debug: boolean = false;
   control: FormGroup;
+  trace:FormControl=new FormControl('{}');
   error: String;
   jarName: String="";
-  constructor(private service: ProjectService,private jarService: JarService, private route: ActivatedRoute,
+  constructor(private service: ProjectService,private jarService: JarService, private aggregatorService:AggregatorService,private route: ActivatedRoute,
     private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
     this.control = formBuilder.group({
       name: '',
@@ -62,6 +64,7 @@ export class ProjectEditorComponent implements OnInit {
       this.control.valueChanges.pipe(debounceTime(1000))
         .subscribe(event => {
           this.error = "";
+          this.trace.setValue("");
           this.service.saveProject(this.control.value).subscribe(
             response => {
               this.snackBar.open("Form saved ", null, { duration: 400 });
@@ -92,5 +95,20 @@ export class ProjectEditorComponent implements OnInit {
 
   debugMode(event: MatSlideToggleChange) {
     this.debug = event.checked;
+  }
+  evaluate(){
+    console.log(this.control.value);
+    this.error = "";
+          this.aggregatorService.evaluateProject(this.control.value).subscribe(
+            response => {
+              this.control.get("jsonPayload").setValue(JSON.stringify(response.body.result));
+              this.trace.setValue(response.body.trace);
+              this.snackBar.open("evaluated ", null, { duration: 400 });
+            },
+            error => {
+              console.log(error);
+              this.error = error.error.message;
+              this.snackBar.open("Form not evaluated ", null, { duration: 1400 });
+            });
   }
 }

@@ -115,6 +115,10 @@ public class ClassLoaderService {
     }
 
     public Class loadClass(File jarFile, String name) throws MalformedURLException, ClassNotFoundException {
+        return getClassLoader(jarFile).loadClass(name);
+    }
+
+    public ClassLoader getClassLoader(File jarFile) throws MalformedURLException {
         ClassLoaderReference reference = getClassLoaderReference(jarFile);
         if (reference.classLoader == null) {
             reference.classLoader = new URLClassLoader(
@@ -122,8 +126,7 @@ public class ClassLoaderService {
                     this.getClass().getClassLoader()
             );
         }
-        return reference.classLoader.loadClass(name);
-
+        return reference.classLoader;
     }
 
     class ClassLoaderReference {

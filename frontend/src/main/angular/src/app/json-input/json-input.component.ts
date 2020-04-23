@@ -22,6 +22,7 @@ export class JsonInputComponent {
   }
   controlChange(change) {
     try {
+      console.log(change);
       this.value = JSON.stringify(JSON.parse(change), undefined, '\t');
     } catch (error) {
       console.error(error);

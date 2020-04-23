@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 
-@RestController
 public abstract class FileBasedController {
     final File baseFolder;
 

@@ -27,6 +27,11 @@
                 <artifactId>jackson-databind</artifactId>
                 <version>2.10.3</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.j-pingus</groupId>
+                <artifactId>aggregator4j</artifactId>
+                <version>1.2-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
