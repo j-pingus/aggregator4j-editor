@@ -31,7 +31,8 @@
                     <button mat-raised-button title="evaluate" (click)="evaluate()">Evaluate</button>
                     <br />
                     <json-input [json]="control.get('jsonPayload')"></json-input>
-                    <json-input [json]="trace" style="position: absolute;top: 1px;right: 1px;"></json-input>
+                    <json-input [json]="trace" placeholder="execution trace"
+                        style="position: absolute;top: 1px;right: 1px;"></json-input>
                 </mat-card-content>
             </mat-card>
         </mat-tab>

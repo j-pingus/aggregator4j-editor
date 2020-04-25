@@ -70,7 +70,7 @@ public class ClassLoaderService {
                 loadedClass = loadedClass.getSuperclass();
             }
 
-        } catch (ClassNotFoundException e) {
+        } catch (Error e) {
             log.error("Error getting fields from " + jarFile.getName() + "/" + className, e);
         }
         List<String>ret = new ArrayList<>();
@@ -114,8 +114,12 @@ public class ClassLoaderService {
                 .collect(Collectors.toList());
     }
 
-    public Class loadClass(File jarFile, String name) throws MalformedURLException, ClassNotFoundException {
-        return getClassLoader(jarFile).loadClass(name);
+    public Class loadClass(File jarFile, String name) {
+        try {
+            return getClassLoader(jarFile).loadClass(name);
+        } catch (ClassNotFoundException|MalformedURLException e) {
+            throw new Error("Could not load class "+name+" from "+jarFile.getName(),e);
+        }
     }
 
     public ClassLoader getClassLoader(File jarFile) throws MalformedURLException {

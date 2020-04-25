@@ -19,10 +19,10 @@ import { AggregatorService } from '../aggregator.service';
 export class ProjectEditorComponent implements OnInit {
   debug: boolean = false;
   control: FormGroup;
-  trace:FormControl=new FormControl('{}');
+  trace: FormControl;
   error: String;
-  jarName: String="";
-  constructor(private service: ProjectService,private jarService: JarService, private aggregatorService:AggregatorService,private route: ActivatedRoute,
+  jarName: String = "";
+  constructor(private service: ProjectService, private jarService: JarService, private aggregatorService: AggregatorService, private route: ActivatedRoute,
     private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
     this.control = formBuilder.group({
       name: '',
@@ -36,8 +36,9 @@ export class ProjectEditorComponent implements OnInit {
       jsonPayload: '',
       className: ''
     });
+    this.trace=new FormControl('{}');
   }
-  
+
 
   addClass(): FormGroup {
     return this.formBuilder.group({
@@ -60,11 +61,11 @@ export class ProjectEditorComponent implements OnInit {
     ).subscribe(project => {
       console.log("just before patch");
       this.control.patchValue(project);
+      this.trace.setValue('{}');
       console.log("just after patch");
       this.control.valueChanges.pipe(debounceTime(1000))
         .subscribe(event => {
           this.error = "";
-          this.trace.setValue("");
           this.service.saveProject(this.control.value).subscribe(
             response => {
               this.snackBar.open("Form saved ", null, { duration: 400 });
@@ -78,14 +79,14 @@ export class ProjectEditorComponent implements OnInit {
     });
     this.getJars();
   }
-  public jars:String[]=[];
+  public jars: String[] = [];
   getJars() {
     this.jars = [];
     this.jarService.getJars().subscribe((data) => {
       this.jars = data;
     });
   }
-  public classes:String[]=[];
+  public classes: String[] = [];
   getClasses() {
     this.classes = [];
     this.jarService.getClasses(this.jarName).subscribe((data) => {
@@ -96,19 +97,19 @@ export class ProjectEditorComponent implements OnInit {
   debugMode(event: MatSlideToggleChange) {
     this.debug = event.checked;
   }
-  evaluate(){
+  evaluate() {
     console.log(this.control.value);
     this.error = "";
-          this.aggregatorService.evaluateProject(this.control.value).subscribe(
-            response => {
-              this.control.get("jsonPayload").setValue(JSON.stringify(response.body.result));
-              this.trace.setValue(response.body.trace);
-              this.snackBar.open("evaluated ", null, { duration: 400 });
-            },
-            error => {
-              console.log(error);
-              this.error = error.error.message;
-              this.snackBar.open("Form not evaluated ", null, { duration: 1400 });
-            });
+    this.aggregatorService.evaluateProject(this.control.value).subscribe(
+      response => {
+        this.control.get("jsonPayload").setValue(JSON.stringify(response.body.result));
+        this.trace.setValue(response.body.trace);
+        this.snackBar.open("evaluated ", null, { duration: 400 });
+      },
+      error => {
+        console.log(error);
+        this.error = error.error.message;
+        this.snackBar.open("Form not evaluated ", null, { duration: 1400 });
+      });
   }
 }

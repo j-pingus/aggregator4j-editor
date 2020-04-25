@@ -10,7 +10,7 @@
         <mat-icon mat-list-icon>folder</mat-icon>
         <span mat-line>{{i+1}} {{p}}
         </span>
-        <button mat-raised-button title="delete product" (click)="delete(p)" matTooltip="delete {{p}}"
+        <button mat-raised-button title="delete jar" (click)="delete(p)" matTooltip="delete {{p}}"
           matTooltipPosition="left">
           <mat-icon>delete</mat-icon>
         </button>
@@ -23,10 +23,11 @@
   <div class="wrapper-title">
     <h2>Upload a Jar</h2>
   </div>
-  <div class="wrapper-body"><input #jarInput hidden="true" type="file" onclick="this.value=null"
-      (change)="selectFile($event)" accept=".jar" />
+  <div class="wrapper-body" DragDrop (onFileDropped)="selectFile($event)">
+    <input #jarInput hidden="true" type="file" onclick="this.value=null"
+      (change)="selectFile($event.target.files)" accept=".jar" />
     <button mat-flat-button color="primary" (click)="jarInput.click()">Choose a domain File (JAR)</button>
-    <button mat-raised-button [disabled]="!selectedFiles" (click)="upload()" matTooltip="upload"
+    <button mat-raised-button [disabled]="!selectedFiles" (click)="upload()" matTooltip="upload {{jarInput.value}}"
       matTooltipPosition="right">
       <mat-icon>attachment</mat-icon>
     </button>

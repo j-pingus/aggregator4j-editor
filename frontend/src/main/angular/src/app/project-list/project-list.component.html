@@ -28,4 +28,18 @@
       </mat-list>
     </div>
   </div>
-  
+  <div class="wrapper">
+
+    <div class="wrapper-title">
+      <h2>Import a project</h2>
+    </div>
+    <div class="wrapper-body" DragDrop (onFileDropped)="selectFile($event)">
+      <input #projectInput hidden="true" type="file" onclick="this.value=null"
+        (change)="selectFile($event.target.files)" accept=".jar" />
+      <button mat-flat-button color="primary" (click)="projectInput.click()">Import configuration as project</button>
+      <button mat-raised-button [disabled]="!selectedFiles" (click)="upload()" matTooltip="upload {{projectInput.value}}"
+        matTooltipPosition="right">
+        <mat-icon>attachment</mat-icon>
+      </button>
+    </div>
+  </div>

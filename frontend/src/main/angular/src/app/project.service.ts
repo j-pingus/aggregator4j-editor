@@ -35,4 +35,12 @@ export class ProjectService {
   deleteProject(id: String) {
     return this.http.delete(endpoint + "project/" + id, undefined);
   }
+  importProject(file: File): Observable<HttpEvent<Project>> {
+    const data: FormData = new FormData();
+    data.append('file', file);
+    const newRequest = new HttpRequest('POST', endpoint + 'projects/import', data, {
+      reportProgress: true
+    });
+    return this.http.request(newRequest);
+  }
 }

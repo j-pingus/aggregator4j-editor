@@ -66,6 +66,6 @@ export class JarListComponent implements OnInit {
     );
   }
   selectFile(event) {
-    this.selectedFiles = event.target.files;
+    this.selectedFiles = event;
   }
 }

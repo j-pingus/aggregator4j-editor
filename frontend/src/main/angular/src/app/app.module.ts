@@ -29,7 +29,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ClassEditorComponent } from './class-editor/class-editor.component';
 import { FilterControlsPipe } from './filter-controls.pipe';
-import { AutocompleteComponent } from './autocomplete/autocomplete.component'
+import { AutocompleteComponent } from './autocomplete/autocomplete.component';
+import { DragDropDirective } from './drag-drop.directive'
 const appRoutes: Routes = [
   {
     path: 'jars', 
@@ -55,7 +56,8 @@ const appRoutes: Routes = [
     JsonInputComponent,
     ClassEditorComponent,
     FilterControlsPipe,
-    AutocompleteComponent
+    AutocompleteComponent,
+    DragDropDirective
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

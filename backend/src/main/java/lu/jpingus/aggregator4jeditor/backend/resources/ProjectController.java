@@ -11,16 +11,20 @@ import lu.jpingus.aggregator4jeditor.backend.model.ProjectReference;
 import lu.jpingus.aggregator4jeditor.backend.services.ClassLoaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import sun.misc.IOUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/v1")
@@ -29,8 +33,10 @@ public class ProjectController extends FileBasedController {
     public ProjectController(@Value("${editor.projectfolder}") String jarFolderPath) {
         super(jarFolderPath);
     }
+
     @Autowired
     ClassLoaderService classLoaderService;
+
     @GetMapping("projects/new")
     public Project newProject() throws IOException {
         Project ret = new Project();
@@ -41,35 +47,57 @@ public class ProjectController extends FileBasedController {
         ret.setJsonPayload("{}");
         saveFile(ret);
         return ret;
-
     }
+
+    @PostMapping("projects/import")
+    public Project importProject(@RequestParam("file") MultipartFile file) throws IOException {
+        String content = new String(file.getBytes());
+        Aggregator4j config = null;
+        if (content.startsWith("{")) {
+            //JSON
+            ObjectMapper mapper = new ObjectMapper();
+            config = mapper.readValue(file.getInputStream(), Aggregator4j.class);
+        } else if (content.contains("<aggregator4j>")) {
+            //XML
+            config = ConfigurationFactory.unMarshall(file.getInputStream());
+        }
+        Project importedProject = newProject();
+        importedProject.setName("Imported from " + file.getOriginalFilename());
+        importedProject.setConfiguration(config);
+        saveFile(importedProject);
+        return importedProject;
+    }
+
     @PutMapping("projects")
     public void save(@RequestBody Project project) throws IOException {
         saveFile(project);
     }
+
     @GetMapping("project/{id}")
-    public ResponseEntity<Project> read(@PathVariable("id")String id){
-        File projectJson=new File(baseFolder,id+".json");
-        if(projectJson.exists()){
+    public ResponseEntity<Project> read(@PathVariable("id") String id) {
+        File projectJson = new File(baseFolder, id + ".json");
+        if (projectJson.exists()) {
             try {
-                return ResponseEntity.ok().body(read(projectJson,Project.class));
+                return ResponseEntity.ok().body(read(projectJson, Project.class));
             } catch (IOException e) {
-                log.error("reading project "+id,e);
+                log.error("reading project " + id, e);
                 return ResponseEntity.status(500).body(null);
             }
-        }else{
+        } else {
             return ResponseEntity.status(404).body(null);
         }
     }
+
     @DeleteMapping("project/{id}")
-    public void delete(@PathVariable("id")String id){
-        File projectJson=new File(baseFolder,id+".json");
-        if(projectJson.exists()){
-            if(!projectJson.delete())
-                throw new Error("Could not delete project with id "+id);
-        }
-        throw new Error("Project with id "+id+" not found");
+    public void delete(@PathVariable("id") String id) {
+        File projectJson = new File(baseFolder, id + ".json");
+        if (projectJson.exists()) {
+            if (!projectJson.delete())
+                throw new Error("Could not delete project with id " + id);
+        } else
+            throw new Error("Project with id " + id + " not found");
     }
+
     @GetMapping("projects")
     public List<ProjectReference> getProjectReferences() {
         List<ProjectReference> ret = new ArrayList<>();
@@ -80,7 +108,11 @@ public class ProjectController extends FileBasedController {
                 e.printStackTrace();
             }
         }
-        return ret;
+
+        return ret.stream()
+                .filter(p -> p.getId() != null)
+                .sorted(Comparator.comparing(p -> p.getName().toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     private <T> T read(File json, Class<T> modelClass) throws IOException {

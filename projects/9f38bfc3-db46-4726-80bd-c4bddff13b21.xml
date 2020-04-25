@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<aggregator4j>
+<package name="com.foo"/>
+<function namespace="reference" registerClass="lu.jpingus.aggregator4jeditor.backend.model.ProjectReference"/>
+<function namespace="project" registerClass="lu.jpingus.aggregator4jeditor.backend.model.Project"/>
+<class context="" name="lu.jpingus.aggregator4jeditor.backend.model.ProjectReference">
+<execute field="" jexl=""/>
+<execute field="" jexl=""/>
+<execute field="field2" jexl="sum('a1')"/>
+</class>
+<class context="" name="lu.jpingus.aggregator4jeditor.backend.model.Project">
+<collect to="a1" what=""/>
+<collect to="" what=""/>
+<collect to="" what=""/>
+<collect to="" what=""/>
+<collect to="" what=""/>
+<collect to="" what=""/>
+<collect to="" what=""/>
+<collect to="" what=""/>
+<collect to="" what=""/>
+<collect field="" to=""/>
+<collect field="" to=""/>
+<collect field="" to=""/>
+<collect field="" to=""/>
+<collect field="" to=""/>
+<collect field="" to=""/>
+<collect field="" to=""/>
+<collect field="" to=""/>
+<collect field="field1" to="a1"/>
+</class>
+</aggregator4j>

@@ -1,0 +1,60 @@
+{
+  "functionList": [
+    {
+      "registerClass": "com.foo.InvoiceLine",
+      "namespace": "aaa"
+    }
+  ],
+  "classList": [
+    {
+      "classContext": "",
+      "className": "com.foo.InvoiceLine",
+      "executeList": [
+        {
+          "jexl": "this.quantity * this.unitPrice",
+          "when": "",
+          "field": "price"
+        },
+        {
+          "jexl": "this.quantity * this.unitPrice * this.vat / 100",
+          "when": "",
+          "field": "vatAmount"
+        }
+      ],
+      "collectList": [
+        {
+          "field": "",
+          "what": "this.quantity * this.unitPrice",
+          "to": "total",
+          "when": ""
+        },
+        {
+          "field": "",
+          "what": "this.quantity * this.unitPrice * this.vat / 100",
+          "to": "totalVat",
+          "when": ""
+        }
+      ],
+      "variableList": []
+    },
+    {
+      "classContext": "",
+      "className": "com.foo.Invoice",
+      "executeList": [
+        {
+          "jexl": "sum('total')",
+          "when": "",
+          "field": "total"
+        },
+        {
+          "jexl": "sum('totalVat')",
+          "when": "",
+          "field": "vatTotal"
+        }
+      ],
+      "collectList": [],
+      "variableList": []
+    }
+  ],
+  "analysedPackage": "com.foo"
+}

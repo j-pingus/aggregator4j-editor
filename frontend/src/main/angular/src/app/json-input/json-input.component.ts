@@ -8,6 +8,9 @@ import { FormControl } from '@angular/forms';
 export class JsonInputComponent {
   @Input()
   json: FormControl;
+  @Input()
+  placeholder:String="json model";
+
   value: String;
   validJson: boolean;
   invalidJsonMessage: any;
