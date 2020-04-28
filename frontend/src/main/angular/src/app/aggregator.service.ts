@@ -10,7 +10,11 @@ const endpoint = environment.baseUrl;
 export class AggregatorService {
 
   constructor(private http: HttpClient) { }
-  evaluateProject(project: any): Observable<HttpResponse<any>> {
-    return this.http.put(endpoint + "aggregator/evaluate", project, { observe: 'response' });
+  evaluateProject(project: any, expression?: string): Observable<HttpResponse<any>> {
+    let option = "";
+    
+    if (expression)
+      option += "?expression=" + encodeURIComponent(expression);
+    return this.http.put(endpoint + "aggregator/evaluate" + option, project, { observe: 'response' });
   }
 }

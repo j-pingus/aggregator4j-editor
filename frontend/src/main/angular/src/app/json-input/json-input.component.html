@@ -1,7 +1,7 @@
-<mat-form-field style="min-width: 500px;min-height: 500px;" >
+<mat-form-field class="fullSize">
     <mat-label>{{placeholder}}</mat-label>
     <textarea matInput [value]="value" (change)="onChange($event)" 
-     style="min-width: 500px;min-height: 500px;" (keyup)="onChange($event)">
+    class="fullSize" (keyup)="onChange($event)">
 </textarea>
     <span *ngIf="validJson">valid</span>
     <div *ngIf="!validJson">{{invalidJsonMessage}}</div>

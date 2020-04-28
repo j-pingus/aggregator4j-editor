@@ -8,4 +8,5 @@ import lombok.Data;
 public class ExecutionTrace {
     Object result;
     String trace;
+    Object evaluated;
 }

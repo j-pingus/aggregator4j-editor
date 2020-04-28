@@ -3,6 +3,28 @@
     top: 15px;
     right: 5px;
 }
-select-jar{
+.json{
+    max-width: 50%;
+    min-width: 400px;
+    min-height: 500px;
+    display: table-cell;
+}
+.payloadModel{
+    min-width: 65%;
+    display: inline-flex;
+}
+.evaluate{
+    min-width: 25%;
+    align-content: flex-end;
+    display: inline-flex;
+}
+autocomplete{
     padding:4px;
+}
+mat-card{
+    margin:2px;
+}
+json-input{
+    width: 300px;
+    height: 300px;
 }

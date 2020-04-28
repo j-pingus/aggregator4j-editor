@@ -8,7 +8,8 @@
                 package boundary
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <autocomplete [values]="packages" [control]="config.get('analysedPackage')" (valueChanged)="setPackage($event)"></autocomplete>
+        <autocomplete [values]="packages" [control]="config.get('analysedPackage')" (valueChanged)="setPackage($event)">
+        </autocomplete>
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -24,20 +25,22 @@
                 matTooltip="register a new class as a function provider" matTooltipPosition="left">
                 <mat-icon>add</mat-icon>
             </button>
-            <mat-list>
-                <mat-list-item *ngFor="let function of getFunctionList().controls; index as i" [formGroup]="function"
-                    class="full">
-                    <mat-form-field class="half">
-                        <mat-label>namespace</mat-label>
-                        <input matInput formControlName="namespace" />
-                    </mat-form-field>
-                    <autocomplete [values]="classes" placeholder="choose a class"
-                        [control]="function.get('registerClass')"></autocomplete>
-                    <button mat-icon-button color="warn" (click)="removeFunction(i)">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </mat-list-item>
-            </mat-list>
+            <mat-card>
+                <mat-list>
+                    <mat-list-item *ngFor="let function of getFunctionList().controls; index as i"
+                        [formGroup]="function" class="full">
+                        <mat-form-field>
+                            <mat-label>namespace</mat-label>
+                            <input matInput formControlName="namespace" />
+                        </mat-form-field>
+                        <autocomplete [values]="classes" placeholder="choose a class" [prefix]="packageName"
+                            [control]="function.get('registerClass')" style="width:450px"></autocomplete>
+                        <button mat-icon-button color="warn" (click)="removeFunction(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </mat-list-item>
+                </mat-list>
+            </mat-card>
         </div>
     </mat-expansion-panel>
     <mat-expansion-panel>

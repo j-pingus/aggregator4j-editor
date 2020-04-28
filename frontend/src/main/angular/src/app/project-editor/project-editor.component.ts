@@ -21,6 +21,8 @@ export class ProjectEditorComponent implements OnInit {
   control: FormGroup;
   trace: FormControl;
   error: String;
+  evaluated: String;
+  oldPayload: String;
   jarName: String = "";
   constructor(private service: ProjectService, private jarService: JarService, private aggregatorService: AggregatorService, private route: ActivatedRoute,
     private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
@@ -36,7 +38,7 @@ export class ProjectEditorComponent implements OnInit {
       jsonPayload: '',
       className: ''
     });
-    this.trace=new FormControl('{}');
+    this.trace = new FormControl('{}');
   }
 
 
@@ -61,6 +63,7 @@ export class ProjectEditorComponent implements OnInit {
     ).subscribe(project => {
       console.log("just before patch");
       this.control.patchValue(project);
+      this.oldPayload = project.jsonPayload;
       this.trace.setValue('{}');
       console.log("just after patch");
       this.control.valueChanges.pipe(debounceTime(1000))
@@ -97,12 +100,23 @@ export class ProjectEditorComponent implements OnInit {
   debugMode(event: MatSlideToggleChange) {
     this.debug = event.checked;
   }
-  evaluate() {
+  reset() {
+    this.control.get('jsonPayload').setValue(this.oldPayload);
+  }
+  evaluate(expression?: string) {
     console.log(this.control.value);
     this.error = "";
-    this.aggregatorService.evaluateProject(this.control.value).subscribe(
+    this.aggregatorService.evaluateProject(this.control.value, expression).subscribe(
       response => {
-        this.control.get("jsonPayload").setValue(JSON.stringify(response.body.result));
+        if (expression !== undefined) {
+          if(response.body.evaluated){
+            this.evaluated = response.body.evaluated;
+          }else{
+            this.evaluated = "could not evaluate : "+expression;
+          }
+        } else {
+          this.control.get("jsonPayload").setValue(JSON.stringify(response.body.result));
+        }
         this.trace.setValue(response.body.trace);
         this.snackBar.open("evaluated ", null, { duration: 400 });
       },

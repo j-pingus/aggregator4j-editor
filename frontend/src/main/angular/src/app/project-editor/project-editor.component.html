@@ -26,13 +26,33 @@
         <mat-tab label="Test">
             <mat-card>
                 <mat-card-content>
+                    <mat-form-field>
+                        <input matInput #expression (keyup.enter)="evaluate(expression.value)"
+                        placeholder="evaluate an expression" matTooltip="not a clue? try some of the following : aggregators(), 
+                        sum('aggregatorName'), avg('ag'), count('ag'), asArray('ag'), asSet('ag')"
+                        matTooltipPosition="right"/>
+                    </mat-form-field>
+                    <p *ngIf="evaluated!==undefined">{{evaluated | json }}</p>
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="json">
+                <mat-card-content>
                     <autocomplete [values]="classes" placeholder="select main model class"
-                        [control]="control.get('className')"></autocomplete>
-                    <button mat-raised-button title="evaluate" (click)="evaluate()">Evaluate</button>
-                    <br />
-                    <json-input [json]="control.get('jsonPayload')"></json-input>
-                    <json-input [json]="trace" placeholder="execution trace"
-                        style="position: absolute;top: 1px;right: 1px;"></json-input>
+                        [control]="control.get('className')" style="width:450px"></autocomplete>
+                    <br/>
+                        <json-input [json]="control.get('jsonPayload')"></json-input>
+                    <div class="topright" >
+                        <button title="Reset model" mat-button (click)="reset()">Reset</button>
+                        <button color="primary" mat-raised-button title="evaluate the json payload with configured rules" (click)="evaluate()">Evaluate</button>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card *ngIf="debug" class="json">
+                <mat-card-content>
+                    <mat-form-field >
+                        <input matInput style="display: none"/>
+                    </mat-form-field>                    
+                    <json-input [json]="trace" placeholder="execution trace" disabled="true"></json-input>
                 </mat-card-content>
             </mat-card>
         </mat-tab>
@@ -42,6 +62,3 @@
 <span style="color: red">
     {{error}}
 </span>
-<div *ngIf="debug">
-    {{control.value | json }}
-</div>

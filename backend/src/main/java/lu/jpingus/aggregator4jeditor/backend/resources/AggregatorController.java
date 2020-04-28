@@ -11,15 +11,12 @@ import lu.jpingus.aggregator4jeditor.backend.services.ClassLoaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-
+import static com.github.jpingus.StringFunctions.isEmpty;
 @RestController
 @RequestMapping(value = "/api/v1/aggregator", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AggregatorController {
@@ -28,16 +25,18 @@ public class AggregatorController {
     @Value("${editor.jarfolder}")
     String jarFolderPath;
 
-    @PutMapping(value="evaluate", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object evaluate(@RequestBody Project project) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    @PutMapping(value = "evaluate", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object evaluate(@RequestBody Project project, @RequestParam(required = false) String expression) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         ObjectMapper mapper = new ObjectMapper();
         File jarFile = new File(jarFolderPath, project.getJarName());
         Class modelClass = service.loadClass(jarFile, project.getClassName());
         Object o = mapper.reader().forType(modelClass).readValue(project.getJsonPayload());
         AggregatorContext context = ConfigurationFactory
                 .buildAggregatorContext(project.getConfiguration(), service.getClassLoader(jarFile));
+
         return ExecutionTrace.builder()
                 .result(context.process(o))
+                .evaluated(isEmpty(expression)?null:context.evaluate(expression))
                 .trace(context.getLastProcessTrace()).build();
     }
 
