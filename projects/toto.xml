@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <aggregator4j>
-<package name="lu.jpingus.aggregator4jeditor.backend.model"/>
-<function namespace="" registerClass="lu.jpingus.aggregator4jeditor.backend.model.ProjectReference"/>
+<package name="com.foo"/>
+<class context="" name="lu.jpingus.aggregator4jeditor.backend.model.ProjectReference"/>
 <class context="" name="lu.jpingus.aggregator4jeditor.backend.model.Project">
 <collect to="" what=""/>
 <collect to="" what=""/>
@@ -14,5 +14,4 @@
 <execute field="" jexl=""/>
 <variable field="" name=""/>
 </class>
-<class context="" name="lu.jpingus.aggregator4jeditor.backend.model.ProjectReference"/>
 </aggregator4j>

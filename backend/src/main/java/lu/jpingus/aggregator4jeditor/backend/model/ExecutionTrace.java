@@ -1,4 +1,4 @@
-package lu.jpingus.aggregator4jeditor.backend.resources;
+package lu.jpingus.aggregator4jeditor.backend.model;
 
 import lombok.Builder;
 import lombok.Data;

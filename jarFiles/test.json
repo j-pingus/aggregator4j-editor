@@ -1,0 +1,51 @@
+{
+  "context": {
+    "name": "",
+    "context": {
+      "name": "",
+      "collect": {
+        "aggregator": "price",
+        "formula": "(Invoice.lines[0].quantity * Invoice.lines[0].unitPrice) "
+      },
+      "collect": {
+        "aggregator": "vat",
+        "formula": "(Invoice.lines[0].quantity * Invoice.lines[0].unitPrice * Invoice.lines[0].vat / 100) "
+      }
+    },
+    "context": {
+      "name": "",
+      "execute": {
+        "field": "Invoice.lines[0].price",
+        "formula": "Invoice.lines[0].quantity * Invoice.lines[0].unitPrice"
+      },
+      "execute": {
+        "field": "Invoice.lines[0].vatAmount",
+        "formula": "Invoice.lines[0].quantity * Invoice.lines[0].unitPrice * Invoice.lines[0].vat / 100"
+      },
+      "collect": {
+        "aggregator": "price",
+        "formula": "(Invoice.lines[1].quantity * Invoice.lines[1].unitPrice) "
+      },
+      "collect": {
+        "aggregator": "vat",
+        "formula": "(Invoice.lines[1].quantity * Invoice.lines[1].unitPrice * Invoice.lines[1].vat / 100) "
+      }
+    }
+  },
+  "execute": {
+    "field": "Invoice.lines[1].price",
+    "formula": "Invoice.lines[1].quantity * Invoice.lines[1].unitPrice"
+  },
+  "execute": {
+    "field": "Invoice.lines[1].vatAmount",
+    "formula": "Invoice.lines[1].quantity * Invoice.lines[1].unitPrice * Invoice.lines[1].vat / 100"
+  },
+  "execute": {
+    "field": "Invoice.total",
+    "formula": "sum('price')"
+  },
+  "execute": {
+    "field": "Invoice.vatTotal",
+    "formula": "sum('vat')"
+  }
+}
