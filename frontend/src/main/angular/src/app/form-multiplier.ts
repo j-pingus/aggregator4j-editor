@@ -2,13 +2,13 @@ import { AbstractControlOptions, AsyncValidatorFn, FormArray, FormGroup, Validat
 export class FormMultiplier extends FormArray {
     private createNewControl: Function;
     constructor(createControl: Function,
-        validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, 
-        asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null) {
-        super([],validatorOrOpts,asyncValidator);
+                validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
+                asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null) {
+        super([], validatorOrOpts, asyncValidator);
         this.createNewControl = createControl;
-    } 
+    }
     public addNew(){
-        this.push(this.createNewControl.call(undefined))
+        this.push(this.createNewControl.call(undefined));
     }
     patchValue(value: any[], options?: { onlySelf?: boolean; emitEvent?: boolean }): void {
         let count = value.length - this.length;

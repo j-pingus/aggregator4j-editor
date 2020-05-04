@@ -5,7 +5,7 @@ import { AbstractControl } from '@angular/forms';
 })
 export class FilterControlsPipe implements PipeTransform {
 
-  transform(controls: AbstractControl[], valueField: string, valueFilter: String): AbstractControl[] {
+  transform(controls: AbstractControl[], valueField: string, valueFilter: string): AbstractControl[] {
     if (!controls) {
       return [];
     }
@@ -14,8 +14,8 @@ export class FilterControlsPipe implements PipeTransform {
     }
 
     return controls.filter(control => {
-      let value = valueField ? control.get(valueField).value : JSON.stringify(control.value);
-      return value ? value.toLowerCase().includes(valueFilter.toLowerCase()) : false
+      const value = valueField ? control.get(valueField).value : JSON.stringify(control.value);
+      return value ? value.toLowerCase().includes(valueFilter.toLowerCase()) : false;
     });
   }
 

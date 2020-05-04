@@ -17,15 +17,8 @@ import { AggregatorService } from '../aggregator.service';
   styleUrls: ['./project-editor.component.css']
 })
 export class ProjectEditorComponent implements OnInit {
-  debug: boolean = false;
-  control: FormGroup;
-  trace: FormControl;
-  error: String;
-  evaluated: String;
-  oldPayload: String;
-  jarName: String = "";
   constructor(private service: ProjectService, private jarService: JarService, private aggregatorService: AggregatorService, private route: ActivatedRoute,
-    private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
+              private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
     this.control = formBuilder.group({
       name: '',
       id: '',
@@ -40,6 +33,15 @@ export class ProjectEditorComponent implements OnInit {
     });
     this.trace = new FormControl('{}');
   }
+  debug = false;
+  control: FormGroup;
+  trace: FormControl;
+  error: string;
+  evaluated: string;
+  oldPayload: string;
+  jarName = '';
+  public jars: string[] = [];
+  public classes: string[] = [];
 
 
   addClass(): FormGroup {
@@ -52,7 +54,7 @@ export class ProjectEditorComponent implements OnInit {
 
     });
   }
-  jarNameChanged(jarName: String) {
+  jarNameChanged(jarName: string) {
     this.jarName = jarName;
     this.getClasses();
   }
@@ -61,35 +63,33 @@ export class ProjectEditorComponent implements OnInit {
       switchMap((params: ParamMap) =>
         this.service.getProject(params.get('id')))
     ).subscribe(project => {
-      console.log("just before patch");
+      console.log('just before patch');
       this.control.patchValue(project);
       this.oldPayload = project.jsonPayload;
       this.trace.setValue('{}');
-      console.log("just after patch");
+      console.log('just after patch');
       this.control.valueChanges.pipe(debounceTime(1000))
         .subscribe(event => {
-          this.error = "";
+          this.error = '';
           this.service.saveProject(this.control.value).subscribe(
             response => {
-              this.snackBar.open("Form saved ", null, { duration: 400 });
+              this.snackBar.open('Form saved ', null, { duration: 400 });
             },
             error => {
               console.log(error);
               this.error = error.error.message;
-              this.snackBar.open("Form not saved ", null, { duration: 1400 });
+              this.snackBar.open('Form not saved ', null, { duration: 1400 });
             });
         });
     });
     this.getJars();
   }
-  public jars: String[] = [];
   getJars() {
     this.jars = [];
     this.jarService.getJars().subscribe((data) => {
       this.jars = data;
     });
   }
-  public classes: String[] = [];
   getClasses() {
     this.classes = [];
     this.jarService.getClasses(this.jarName).subscribe((data) => {
@@ -105,25 +105,25 @@ export class ProjectEditorComponent implements OnInit {
   }
   evaluate(expression?: string) {
     console.log(this.control.value);
-    this.error = "";
+    this.error = '';
     this.aggregatorService.evaluateProject(this.control.value, expression).subscribe(
       response => {
         if (expression !== undefined) {
-          if(response.body.evaluated){
+          if (response.body.evaluated){
             this.evaluated = response.body.evaluated;
           }else{
-            this.evaluated = "could not evaluate : "+expression;
+            this.evaluated = 'could not evaluate : ' + expression;
           }
         } else {
-          this.control.get("jsonPayload").setValue(JSON.stringify(response.body.result));
+          this.control.get('jsonPayload').setValue(JSON.stringify(response.body.result));
         }
         this.trace.setValue(response.body.trace);
-        this.snackBar.open("evaluated ", null, { duration: 400 });
+        this.snackBar.open('evaluated ', null, { duration: 400 });
       },
       error => {
         console.log(error);
         this.error = error.error.message;
-        this.snackBar.open("Form not evaluated ", null, { duration: 1400 });
+        this.snackBar.open('Form not evaluated ', null, { duration: 1400 });
       });
   }
 }

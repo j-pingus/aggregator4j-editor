@@ -11,10 +11,11 @@ export class AggregatorService {
 
   constructor(private http: HttpClient) { }
   evaluateProject(project: any, expression?: string): Observable<HttpResponse<any>> {
-    let option = "";
-    
-    if (expression)
-      option += "?expression=" + encodeURIComponent(expression);
-    return this.http.put(endpoint + "aggregator/evaluate" + option, project, { observe: 'response' });
+    let option = '';
+
+    if (expression) {
+      option += '?expression=' + encodeURIComponent(expression);
+    }
+    return this.http.put(endpoint + 'aggregator/evaluate' + option, project, { observe: 'response' });
   }
 }

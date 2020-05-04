@@ -1,23 +1,23 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { FormMultiplier } from '../form-multiplier';
 import { JarService } from '../jar.service';
 @Component({
-  selector: 'a4j-config-editor',
+  selector: 'app-a4j-config-editor',
   templateUrl: './config-editor.component.html',
   styleUrls: ['./config-editor.component.css']
 })
-export class ConfigEditorComponent {
+export class ConfigEditorComponent implements OnChanges{
   @Input()
   config: FormGroup = new FormGroup({});
   @Input()
-  public jarName: String;
-  public packageName: String;
+  public jarName: string;
+  public packageName: string;
   public classFilter = new FormControl('');
   public valueFilter = new FormControl('');
-  public classes: String[] = [];
-  public packages: String[] = [];
-  public filterClass: String = '';
+  public classes: string[] = [];
+  public packages: string[] = [];
+  public filterClass = '';
   constructor(private fb: FormBuilder, private service: JarService) {
   }
   ngOnChanges(change: SimpleChanges) {
@@ -35,11 +35,11 @@ export class ConfigEditorComponent {
   public getClassList(): FormMultiplier {
     return this.config.get('classList') as FormMultiplier;
   }
-  setPackage(name: String) {
+  setPackage(name: string) {
     this.packageName = name;
     this.loadClasses(this.jarName, this.packageName);
   }
-  loadClasses(jarName: String, packageName: String) {
+  loadClasses(jarName: string, packageName: string) {
     this.classes = [];
     if (jarName && packageName !== undefined && jarName.endsWith('.jar')) {
       this.service.getClasses(jarName, packageName).subscribe((data) => {
@@ -48,7 +48,7 @@ export class ConfigEditorComponent {
       });
     }
   }
-  loadPackages(jarName: String) {
+  loadPackages(jarName: string) {
     this.packages = [];
     if (jarName && jarName.endsWith('.jar')) {
       this.service.getPackages(jarName).subscribe((data) => {
@@ -70,8 +70,9 @@ export class ConfigEditorComponent {
     this.getClassList().removeAt(i);
   }
   getValue(group: FormGroup, field: string) {
-    let control = group.get(field) as FormControl;
-    if (control)
+    const control = group.get(field) as FormControl;
+    if (control) {
       return control.value;
+    }
   }
 }

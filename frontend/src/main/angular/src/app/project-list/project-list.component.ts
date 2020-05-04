@@ -15,7 +15,7 @@ export class ProjectListComponent implements OnInit {
   currentFileUpload: File;
   progress: { percentage: number } = { percentage: 0 };
 
-  constructor(private service:ProjectService, private router:Router, private snackBar:MatSnackBar) { }
+  constructor(private service: ProjectService, private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.getProjects();
@@ -28,12 +28,12 @@ export class ProjectListComponent implements OnInit {
     });
   }
   edit(project){
-    console.log("edit");
-    this.router.navigateByUrl('project/'+project.id);
+    console.log('edit');
+    this.router.navigateByUrl('project/' + project.id);
   }
   newProject(){
     this.service.newProject().subscribe((project) => {
-      this.router.navigateByUrl('project/'+project.id);
+      this.router.navigateByUrl('project/' + project.id);
     });
   }
   delete(project){
@@ -42,8 +42,8 @@ export class ProjectListComponent implements OnInit {
       this.getProjects();
     },
     error => {
-      if(error instanceof HttpErrorResponse){
-        this.snackBar.open(error.error.message,"Error",{duration:5000});
+      if (error instanceof HttpErrorResponse){
+        this.snackBar.open(error.error.message, 'Error', {duration: 5000});
       }else{
         console.error(error);
       }
@@ -57,16 +57,16 @@ export class ProjectListComponent implements OnInit {
       if (event.type === HttpEventType.UploadProgress) {
         this.progress.percentage = Math.round(100 * event.loaded / event.total);
       } else if (event instanceof HttpResponse) {
-        this.snackBar.open(this.currentFileUpload.name+" uploaded",null,{duration:2800});
-        //alert('File Successfully Uploaded');
-        //console.log(event.body);
-        this.router.navigateByUrl('project/'+event.body.id);
+        this.snackBar.open(this.currentFileUpload.name + ' uploaded', null, {duration: 2800});
+        // alert('File Successfully Uploaded');
+        // console.log(event.body);
+        this.router.navigateByUrl('project/' + event.body.id);
       }
       this.selectedFiles = undefined;
     },
     error => {
-      if(error instanceof HttpErrorResponse){
-        this.snackBar.open(error.error,"Error",{duration:5000});
+      if (error instanceof HttpErrorResponse){
+        this.snackBar.open(error.error, 'Error', {duration: 5000});
       }else{
         console.error(error);
       }

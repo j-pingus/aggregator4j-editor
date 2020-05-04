@@ -11,7 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { HttpClientModule } from '@angular/common/http';
 import { JarListComponent } from './jar-list/jar-list.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -21,7 +21,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProjectEditorComponent } from './project-editor/project-editor.component';
 import { ConfigEditorComponent } from './config-editor/config-editor.component';
 import { ProjectListComponent } from './project-list/project-list.component';
-import { JsonInputComponent } from './json-input/json-input.component'
+import { JsonInputComponent } from './json-input/json-input.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
@@ -30,10 +30,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ClassEditorComponent } from './class-editor/class-editor.component';
 import { FilterControlsPipe } from './filter-controls.pipe';
 import { AutocompleteComponent } from './autocomplete/autocomplete.component';
-import { DragDropDirective } from './drag-drop.directive'
+import { DragDropDirective } from './drag-drop.directive';
 const appRoutes: Routes = [
   {
-    path: 'jars', 
+    path: 'jars',
     component: JarListComponent
   },
   {

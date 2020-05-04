@@ -1,39 +1,46 @@
 export class Project {
-    id : String = '';
-    name : String = '';
-    jarName : String = '';
-    configuration : Aggregator4j = new Aggregator4j;
-    jsonPayload : '{}';
-    className : String = '';
-}    
+  id = '';
+  name = '';
+  jarName = '';
+  configuration: Aggregator4j = new Aggregator4j();
+  jsonPayload: '{}';
+  className = '';
+}
+
 export class Aggregator4j {
-    functionList : A4jFunction[]=new A4jFunction[0];
-    classList : A4jClass[]=new A4jClass[0];
-    analysedPackage : String = '';
+  analysedPackage = '';
+  processing = '';
+  functionList: A4jFunction[] = new A4jFunction[0]();
+  classList: A4jClass[] = new A4jClass[0]();
 }
+
 export class A4jFunction {
-    registerClass : String = ''; 
-    namespace : String = '';
+  registerClass = '';
+  namespace = '';
 }
+
 export class A4jClass {
-    classContext : String = '';
-    className : String = '';
-    executeList : A4jExecute []= [];
-    collectList : A4jCollect []= [];
-    variableList : A4jVariable []= [];
+  classContext = '';
+  className = '';
+  executeList: A4jExecute [] = [];
+  collectList: A4jCollect [] = [];
+  variableList: A4jVariable [] = [];
 }
+
 export class A4jExecute {
-    jexl : String = '';
-    when : String = '';
-    field : String = '';
+  jexl = '';
+  when = '';
+  field = '';
 }
+
 export class A4jCollect {
-    field : String = '';
-    what : String = '';
-    to : String = '';
-    when : String = '';
+  field = '';
+  what = '';
+  to = '';
+  when = '';
 }
+
 export class A4jVariable {
-    field : String = '';
-    variable : String = '';
+  field = '';
+  variable = '';
 }

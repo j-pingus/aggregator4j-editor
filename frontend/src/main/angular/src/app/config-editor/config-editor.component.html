@@ -8,8 +8,8 @@
                 package boundary
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <autocomplete [values]="packages" [control]="config.get('analysedPackage')" (valueChanged)="setPackage($event)">
-        </autocomplete>
+        <app-a4j-autocomplete [values]="packages" [control]="config.get('analysedPackage')" (valueChanged)="setPackage($event)">
+        </app-a4j-autocomplete>
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -33,8 +33,8 @@
                             <mat-label>namespace</mat-label>
                             <input matInput formControlName="namespace" />
                         </mat-form-field>
-                        <autocomplete [values]="classes" placeholder="choose a class" [prefix]="packageName"
-                            [control]="function.get('registerClass')" style="width:450px"></autocomplete>
+                        <app-a4j-autocomplete [values]="classes" placeholder="choose a class" [prefix]="packageName"
+                            [control]="function.get('registerClass')" style="width:450px"></app-a4j-autocomplete>
                         <button mat-icon-button color="warn" (click)="removeFunction(i)">
                             <mat-icon>delete</mat-icon>
                         </button>
@@ -65,17 +65,17 @@
                 matTooltip="configure another class" matTooltipPosition="right">
                 <mat-icon>add</mat-icon>
             </button>
-            <mat-card *ngFor="let clazz of getClassList().controls 
-                | filterControls : 'className' : classFilter.value 
-                | filterControls : undefined : valueFilter.value 
+            <mat-card *ngFor="let clazz of getClassList().controls
+                | filterControls : 'className' : classFilter.value
+                | filterControls : undefined : valueFilter.value
                 ; index as i" [formGroup]="clazz">
                 <mat-card-content>
                     <div class="container">
                         <button class="topright" style="size: 50%;" mat-mini-fab color="warn" (click)="removeClass(i)">
                             <mat-icon>delete</mat-icon>
                         </button>
-                        <class-editor [jarName]="jarName" [classes]="classes" [control]="clazz"
-                            [filterValue]="valueFilter.value"></class-editor>
+                        <app-a4j-class-editor [jarName]="jarName" [classes]="classes" [control]="clazz"
+                            [filterValue]="valueFilter.value"></app-a4j-class-editor>
                     </div>
                 </mat-card-content>
             </mat-card>

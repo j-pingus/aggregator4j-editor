@@ -29,8 +29,11 @@ public class AggregatorController {
         File jarFile = new File(jarFolderPath, project.getJarName());
         Class modelClass = service.loadClass(jarFile, project.getClassName());
         Object o = mapper.reader().forType(modelClass).readValue(project.getJsonPayload());
-        AggregatorContext context = ConfigurationFactory
-                .buildAggregatorContext(project.getConfiguration(), service.getClassLoader(jarFile));
+        AggregatorContext context = AggregatorContext.builder()
+                .config(project.getConfiguration())
+                .classLoader(service.getClassLoader(jarFile))
+                .debug(true)
+                .build();
 
         return ExecutionTrace.builder()
                 .result(context.process(o))

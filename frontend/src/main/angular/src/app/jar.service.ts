@@ -16,21 +16,21 @@ const httpOptions = {
 export class JarService {
   constructor(private http: HttpClient) { }
   private extractData(res: Response) {
-    let body = res;
+    const body = res;
     return body || [];
   }
-  getJars(): Observable<String[]> {
-    return this.http.get<String[]>(endpoint + 'jars').pipe();
+  getJars(): Observable<string[]> {
+    return this.http.get<string[]>(endpoint + 'jars').pipe();
   }
-  getPackages(jarName: String): Observable<String[]> {
-    return this.http.get<String[]>(endpoint + 'jars/' + jarName + '/packages').pipe();
+  getPackages(jarName: string): Observable<string[]> {
+    return this.http.get<string[]>(endpoint + 'jars/' + jarName + '/packages').pipe();
   }
-  getClasses(jarName: String, packageFilter?: String): Observable<String[]> {
-    let option: string = packageFilter ? '?packageFilter=' + packageFilter : '';
-    return this.http.get<String[]>(endpoint + 'jars/' + jarName + '/classes' + option).pipe();
+  getClasses(jarName: string, packageFilter?: string): Observable<string[]> {
+    const option: string = packageFilter ? '?packageFilter=' + packageFilter : '';
+    return this.http.get<string[]>(endpoint + 'jars/' + jarName + '/classes' + option).pipe();
   }
-  getFields(jarName: String, className: String): Observable<String[]> {
-    return this.http.get<String[]>(endpoint + 'jars/' + jarName + '/' + className + '/fields').pipe();
+  getFields(jarName: string, className: string): Observable<string[]> {
+    return this.http.get<string[]>(endpoint + 'jars/' + jarName + '/' + className + '/fields').pipe();
   }
   deleteJar(jar): Observable<any> {
     return this.http.delete(endpoint + 'jars/' + jar).pipe(map((this.extractData)));

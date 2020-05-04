@@ -9,14 +9,14 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   styleUrls: ['./jar-list.component.css']
 })
 export class JarListComponent implements OnInit {
-  jars: String[] = [];
+  jars: string[] = [];
   selectedFiles: FileList;
   currentFileUpload: File;
   progress: { percentage: number } = { percentage: 0 };
   selectedFile = null;
   changeImage = false;
 
-  constructor(public jarService: JarService, private route: ActivatedRoute, private router: Router, private snackBar:MatSnackBar) {
+  constructor(public jarService: JarService, private route: ActivatedRoute, private router: Router, private snackBar: MatSnackBar) {
     console.log('Jar list component created');
   }
 
@@ -30,9 +30,9 @@ export class JarListComponent implements OnInit {
       this.jars = data;
     });
   }
-  delete(jar) { 
-    this.jarService.deleteJar(jar).subscribe(data=>{
-      this.snackBar.open(data.message,null,{duration:1300});
+  delete(jar) {
+    this.jarService.deleteJar(jar).subscribe(data => {
+      this.snackBar.open(data.message, null, {duration: 1300});
       this.getJars();
     });
   }
@@ -50,15 +50,15 @@ export class JarListComponent implements OnInit {
       if (event.type === HttpEventType.UploadProgress) {
         this.progress.percentage = Math.round(100 * event.loaded / event.total);
       } else if (event instanceof HttpResponse) {
-        this.snackBar.open(this.currentFileUpload.name+" uploaded",null,{duration:2800});
-        //alert('File Successfully Uploaded');
+        this.snackBar.open(this.currentFileUpload.name + ' uploaded', null, {duration: 2800});
+        // alert('File Successfully Uploaded');
         this.getJars();
       }
       this.selectedFiles = undefined;
     },
     error => {
-      if(error instanceof HttpErrorResponse){
-        this.snackBar.open(error.error,"Error",{duration:5000});
+      if (error instanceof HttpErrorResponse){
+        this.snackBar.open(error.error, 'Error', {duration: 5000});
       }else{
         console.error(error);
       }

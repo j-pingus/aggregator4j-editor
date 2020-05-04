@@ -7,8 +7,8 @@
                     <mat-label>project name</mat-label>
                     <input matInput formControlName="name" />
                 </mat-form-field>
-                <autocomplete [values]="jars" (valueChanged)="jarNameChanged($event)"
-                    [control]="control.get('jarName')"></autocomplete>
+                <app-a4j-autocomplete [values]="jars" (valueChanged)="jarNameChanged($event)"
+                    [control]="control.get('jarName')"></app-a4j-autocomplete>
                 <mat-slide-toggle class="topright" color="primary" [checked]="debug" (change)="debugMode($event)">
                     debug
                 </mat-slide-toggle>
@@ -19,7 +19,7 @@
         <mat-tab label="Configure">
             <mat-card>
                 <mat-card-content>
-                    <a4j-config-editor [jarName]="jarName" [config]="control.get('configuration')"></a4j-config-editor>
+                    <app-a4j-config-editor [jarName]="jarName" [config]="control.get('configuration')"></app-a4j-config-editor>
                 </mat-card-content>
             </mat-card>
         </mat-tab>
@@ -28,7 +28,7 @@
                 <mat-card-content>
                     <mat-form-field>
                         <input matInput #expression (keyup.enter)="evaluate(expression.value)"
-                        placeholder="evaluate an expression" matTooltip="not a clue? try some of the following : aggregators(), 
+                        placeholder="evaluate an expression" matTooltip="not a clue? try some of the following : aggregators(),
                         sum('aggregatorName'), avg('ag'), count('ag'), asArray('ag'), asSet('ag')"
                         matTooltipPosition="right"/>
                     </mat-form-field>
@@ -37,10 +37,10 @@
             </mat-card>
             <mat-card class="json">
                 <mat-card-content>
-                    <autocomplete [values]="classes" placeholder="select main model class"
-                        [control]="control.get('className')" style="width:450px"></autocomplete>
+                    <app-a4j-autocomplete [values]="classes" placeholder="select main model class"
+                        [control]="control.get('className')" style="width:450px"></app-a4j-autocomplete>
                     <br/>
-                        <json-input [json]="control.get('jsonPayload')"></json-input>
+                        <app-json-input [json]="control.get('jsonPayload')"></app-json-input>
                     <div class="topright" >
                         <button title="Reset model" mat-button (click)="reset()">Reset</button>
                         <button color="primary" mat-raised-button title="evaluate the json payload with configured rules" (click)="evaluate()">Evaluate</button>
@@ -51,8 +51,8 @@
                 <mat-card-content>
                     <mat-form-field >
                         <input matInput style="display: none"/>
-                    </mat-form-field>                    
-                    <json-input [json]="trace" placeholder="execution trace" disabled="true"></json-input>
+                    </mat-form-field>
+                    <app-json-input [json]="trace" placeholder="execution trace" disabled="true"></app-json-input>
                 </mat-card-content>
             </mat-card>
         </mat-tab>

@@ -3,7 +3,7 @@ import { environment } from '../environments/environment';
 import { HttpClient, HttpHeaders, HttpEvent, HttpRequest, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
-import { Project } from './model/model'
+import { Project } from './model/model';
 const endpoint = environment.baseUrl;
 
 @Injectable({
@@ -12,7 +12,7 @@ const endpoint = environment.baseUrl;
 export class ProjectService {
   constructor(private http: HttpClient) { }
   private extractData(res: Response) {
-    let body = res;
+    const body = res;
     return body || [];
   }
 
@@ -25,15 +25,15 @@ export class ProjectService {
       map(this.extractData)
     );
   }
-  getProject(id: String): Observable<Project> {
+  getProject(id: string): Observable<Project> {
     return this.http.get<Project>(
       endpoint + 'project/' + id);
   }
   saveProject(project: any): Observable<HttpResponse<any>> {
-    return this.http.put(endpoint + "projects", project, { observe: 'response' });
+    return this.http.put(endpoint + 'projects', project, { observe: 'response' });
   }
-  deleteProject(id: String) {
-    return this.http.delete(endpoint + "project/" + id, undefined);
+  deleteProject(id: string) {
+    return this.http.delete(endpoint + 'project/' + id, undefined);
   }
   importProject(file: File): Observable<HttpEvent<Project>> {
     const data: FormData = new FormData();
