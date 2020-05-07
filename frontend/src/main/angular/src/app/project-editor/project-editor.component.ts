@@ -26,7 +26,8 @@ export class ProjectEditorComponent implements OnInit {
       configuration: formBuilder.group({
         functionList: new FormMultiplier(() => this.formBuilder.group(new A4jFunction())),
         classList: new FormMultiplier(() => this.addClass()),
-        analysedPackage: ''
+        analysedPackage: '',
+        processing:''
       }),
       jsonPayload: '',
       className: ''

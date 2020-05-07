@@ -10,6 +10,7 @@
         </mat-expansion-panel-header>
         <app-a4j-autocomplete [values]="packages" [control]="config.get('analysedPackage')" (valueChanged)="setPackage($event)">
         </app-a4j-autocomplete>
+        <app-a4j-autocomplete [values]="classes" [control]="config.get('processing')"></app-a4j-autocomplete>
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
