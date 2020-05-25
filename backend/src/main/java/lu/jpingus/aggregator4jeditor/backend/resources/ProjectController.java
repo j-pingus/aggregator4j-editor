@@ -88,6 +88,41 @@ public class ProjectController extends FileBasedController {
         }
     }
 
+    @GetMapping(
+            value = "project/{id}/config",produces = "application/json")
+    public ResponseEntity<String> getJsonConfig(@PathVariable("id") String id) {
+        File projectJson = new File(baseFolder, id + ".json");
+        if (projectJson.exists()) {
+            try {
+                Project p = read(projectJson, Project.class);
+                ObjectMapper mapper = new ObjectMapper();
+                return ResponseEntity.ok().body(mapper.writeValueAsString(p.getConfiguration()));
+            } catch (IOException e) {
+                log.error("reading project " + id, e);
+                return ResponseEntity.status(500).body(null);
+            }
+        } else {
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+
+    @GetMapping(
+            value = "project/{id}/config",produces = "application/xml")
+    public ResponseEntity<String> getXmlConfig(@PathVariable("id") String id) {
+        File projectJson = new File(baseFolder, id + ".json");
+        if (projectJson.exists()) {
+            try {
+                Project p = read(projectJson, Project.class);
+                return ResponseEntity.ok().body("<xml/>");
+            } catch (IOException e) {
+                log.error("reading project " + id, e);
+                return ResponseEntity.status(500).body(null);
+            }
+        } else {
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+
     @DeleteMapping("project/{id}")
     public void delete(@PathVariable("id") String id) {
         File projectJson = new File(baseFolder, id + ".json");
