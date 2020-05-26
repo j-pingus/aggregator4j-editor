@@ -1,53 +1,55 @@
 <div class="wrapper">
 
-    <div class="wrapper-title">
-      <h2>
-        <span>List of Projects </span>
+  <div class="wrapper-title">
+    <h2>
+      <span>List of Projects </span>
 
-        <button mat-raised-button title="create a new project" (click)="newProject()">
-          <mat-icon>add</mat-icon>
-        </button>
-      </h2>
-    </div>
-    <div class="wrapper-body">
-
-      <mat-list>
-        <mat-list-item *ngFor="let p of projects; let i=index;">
-          <mat-icon mat-list-icon>folder</mat-icon>
-          <span mat-line>{{i+1}} {{p.name}}
-          </span>
-          <button mat-raised-button (click)="edit(p)" matTooltip="edit {{p.name}}"
-            matTooltipPosition="left">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-raised-button (click)="downloadJsonConfig(p.id)" matTooltip="Json config {{p.name}} to clipboard"
-                  matTooltipPosition="left">
-            <mat-icon>get</mat-icon>
-          </button>
-          <button mat-raised-button (click)="downloadXmlConfig(p.id)" matTooltip="XML config {{p.name}} to clibpoard"
-                  matTooltipPosition="left">
-            <mat-icon>get</mat-icon>
-          </button>
-          <button mat-raised-button (click)="delete(p)" matTooltip="delete {{p.name}}"
-            matTooltipPosition="left">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-list-item>
-      </mat-list>
-    </div>
-  </div>
-  <div class="wrapper">
-
-    <div class="wrapper-title">
-      <h2>Import a project</h2>
-    </div>
-    <div class="wrapper-body" DragDrop (onFileDropped)="selectFile($event)">
-      <input #projectInput hidden="true" type="file" onclick="this.value=null"
-        (change)="selectFile($event.target.files)" accept=".jar" />
-      <button mat-flat-button color="primary" (click)="projectInput.click()">Import configuration as project</button>
-      <button mat-raised-button [disabled]="!selectedFiles" (click)="upload()" matTooltip="upload {{projectInput.value}}"
-        matTooltipPosition="right">
-        <mat-icon>attachment</mat-icon>
+      <button mat-raised-button title="create a new project" (click)="newProject()">
+        <mat-icon>add</mat-icon>
       </button>
-    </div>
+    </h2>
   </div>
+  <div class="wrapper-body">
+
+    <mat-list>
+      <mat-list-item *ngFor="let p of projects; let i=index;">
+        <mat-icon mat-list-icon>folder</mat-icon>
+        <span mat-line>{{i + 1}} <a href="project/{{p.id}}">{{p.name}}</a>
+          </span>
+        <button mat-mini-fab color="primary" (click)="edit(p)" matTooltip="edit {{p.name}}"
+                matTooltipPosition="left">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" (click)="downloadJsonConfig(p.id)"
+                matTooltip="Json config {{p.name}} to clipboard"
+                matTooltipPosition="left">
+          <mat-icon>cloud_download</mat-icon>
+        </button>
+        <button mat-mini-fab color="accent" (click)="downloadXmlConfig(p.id)"
+                matTooltip="XML config {{p.name}} to clibpoard"
+                matTooltipPosition="left">
+          <mat-icon>cloud_download</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" (click)="delete(p)" matTooltip="delete {{p.name}}"
+                matTooltipPosition="left">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>
+<div class="wrapper">
+
+  <div class="wrapper-title">
+    <h2>Import a project</h2>
+  </div>
+  <div class="wrapper-body" DragDrop (onFileDropped)="selectFile($event)">
+    <input #projectInput hidden="true" type="file" onclick="this.value=null"
+           (change)="selectFile($event.target.files)" accept=".jar"/>
+    <button mat-flat-button color="primary" (click)="projectInput.click()">Import configuration as project</button>
+    <button mat-raised-button [disabled]="!selectedFiles" (click)="upload()" matTooltip="upload {{projectInput.value}}"
+            matTooltipPosition="right">
+      <mat-icon>attachment</mat-icon>
+    </button>
+  </div>
+</div>
