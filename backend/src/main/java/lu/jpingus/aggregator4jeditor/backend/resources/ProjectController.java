@@ -113,7 +113,9 @@ public class ProjectController extends FileBasedController {
         if (projectJson.exists()) {
             try {
                 Project p = read(projectJson, Project.class);
-                return ResponseEntity.ok().body("<xml/>");
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ConfigurationFactory.marshall(p.getConfiguration(),bos);
+                return ResponseEntity.ok().body(bos.toString("UTF-8"));
             } catch (IOException e) {
                 log.error("reading project " + id, e);
                 return ResponseEntity.status(500).body(null);

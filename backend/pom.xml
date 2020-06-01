@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>lu.jpingus.aggregator4j-editor</groupId>
 	<artifactId>backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>backend</name>
 	<description>Backend server </description>
 
@@ -45,6 +45,16 @@
 			<groupId>com.github.j-pingus</groupId>
 			<artifactId>aggregator4j</artifactId>
 			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>frontend</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>lu.jpingus.aggregator4j-editor</groupId>
+			<artifactId>frontend</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
