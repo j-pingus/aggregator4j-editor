@@ -27,5 +27,4 @@ public class FrontEndConfiguration implements WebMvcConfigurer {
                                 : new ClassPathResource("/static/index.html");
                     }
                 });
-    }
-}
+    }}
