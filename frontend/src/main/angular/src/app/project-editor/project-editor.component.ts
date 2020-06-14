@@ -3,8 +3,8 @@ import { ProjectService } from '../project.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { A4jFunction, A4jExecute, A4jCollect, A4jVariable } from '../model/model';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import {FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { FormMultiplier } from '../form-multiplier';
@@ -17,7 +17,8 @@ import { AggregatorService } from '../aggregator.service';
   styleUrls: ['./project-editor.component.css']
 })
 export class ProjectEditorComponent implements OnInit {
-  constructor(private service: ProjectService, private jarService: JarService, private aggregatorService: AggregatorService, private route: ActivatedRoute,
+  constructor(private service: ProjectService, private jarService: JarService,
+              private aggregatorService: AggregatorService, private route: ActivatedRoute,
               private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
     this.control = formBuilder.group({
       name: '',
@@ -27,7 +28,7 @@ export class ProjectEditorComponent implements OnInit {
         functionList: new FormMultiplier(() => this.formBuilder.group(new A4jFunction())),
         classList: new FormMultiplier(() => this.addClass()),
         analysedPackage: '',
-        processing:''
+        processing: ''
       }),
       jsonPayload: '',
       className: ''
@@ -48,7 +49,7 @@ export class ProjectEditorComponent implements OnInit {
   addClass(): FormGroup {
     return this.formBuilder.group({
       classContext: '',
-      className: '',
+      className: new FormControl('', [Validators.required]),
       executeList: new FormMultiplier(() => this.formBuilder.group(new A4jExecute())),
       collectList: new FormMultiplier(() => this.formBuilder.group(new A4jCollect())),
       variableList: new FormMultiplier(() => this.formBuilder.group(new A4jVariable()))
@@ -70,10 +71,10 @@ export class ProjectEditorComponent implements OnInit {
       this.trace.setValue('{}');
       console.log('just after patch');
       this.control.valueChanges.pipe(debounceTime(1000))
-        .subscribe(event => {
+        .subscribe(() => {
           this.error = '';
           this.service.saveProject(this.control.value).subscribe(
-            response => {
+            () => {
               this.snackBar.open('Form saved ', null, { duration: 400 });
             },
             error => {
