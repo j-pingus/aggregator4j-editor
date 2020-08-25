@@ -1,8 +1,7 @@
 package lu.jpingus.aggregator4jeditor.backend.resources;
 
+import com.crabshue.commons.aggregator.AggregatorContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.jpingus.AggregatorContext;
-import com.github.jpingus.ConfigurationFactory;
 import lu.jpingus.aggregator4jeditor.backend.model.ExecutionTrace;
 import lu.jpingus.aggregator4jeditor.backend.model.Project;
 import lu.jpingus.aggregator4jeditor.backend.services.ClassLoaderService;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import static com.github.jpingus.StringFunctions.isEmpty;
+import static com.crabshue.commons.aggregator.StringFunctions.isEmpty;
 @RestController
 @RequestMapping(value = "/api/v1/aggregator", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AggregatorController {
@@ -24,10 +23,10 @@ public class AggregatorController {
     String jarFolderPath;
 
     @PutMapping(value = "evaluate", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object evaluate(@RequestBody Project project, @RequestParam(required = false) String expression) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public Object evaluate(@RequestBody Project project, @RequestParam(required = false) String expression) throws IOException{
         ObjectMapper mapper = new ObjectMapper();
         File jarFile = new File(jarFolderPath, project.getJarName());
-        Class modelClass = service.loadClass(jarFile, project.getClassName());
+        Class<?> modelClass = service.loadClass(jarFile, project.getClassName());
         Object o = mapper.reader().forType(modelClass).readValue(project.getJsonPayload());
         AggregatorContext context = AggregatorContext.builder()
                 .config(project.getConfiguration())

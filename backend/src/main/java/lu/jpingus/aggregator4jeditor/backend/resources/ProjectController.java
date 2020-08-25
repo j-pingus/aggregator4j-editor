@@ -1,17 +1,15 @@
 package lu.jpingus.aggregator4jeditor.backend.resources;
 
+import com.crabshue.commons.aggregator.ConfigurationFactory;
+import com.crabshue.commons.aggregator.model.AggregatorConfiguration;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.jpingus.AggregatorContext;
-import com.github.jpingus.ConfigurationFactory;
-import com.github.jpingus.model.Aggregator4j;
 import lombok.extern.slf4j.Slf4j;
 import lu.jpingus.aggregator4jeditor.backend.model.Project;
 import lu.jpingus.aggregator4jeditor.backend.model.ProjectReference;
 import lu.jpingus.aggregator4jeditor.backend.services.ClassLoaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,10 +17,7 @@ import sun.misc.IOUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -42,7 +37,7 @@ public class ProjectController extends FileBasedController {
         Project ret = new Project();
         ret.setId(UUID.randomUUID().toString());
         ret.setName("New Project");
-        ret.setConfiguration(new Aggregator4j());
+        ret.setConfiguration(new AggregatorConfiguration());
         ret.setClassName("");
         ret.setJsonPayload("{}");
         saveFile(ret);
@@ -52,11 +47,11 @@ public class ProjectController extends FileBasedController {
     @PostMapping("projects/import")
     public Project importProject(@RequestParam("file") MultipartFile file) throws IOException {
         String content = new String(file.getBytes());
-        Aggregator4j config = null;
+        AggregatorConfiguration config = null;
         if (content.startsWith("{")) {
             //JSON
             ObjectMapper mapper = new ObjectMapper();
-            config = mapper.readValue(file.getInputStream(), Aggregator4j.class);
+            config = mapper.readValue(file.getInputStream(), AggregatorConfiguration.class);
         } else if (content.contains("<aggregator4j>")) {
             //XML
             config = ConfigurationFactory.unMarshall(file.getInputStream());
