@@ -8,9 +8,11 @@
                 package boundary
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <app-a4j-autocomplete [values]="packages" [control]="config.get('analysedPackage')" (valueChanged)="setPackage($event)"  placeholder="limit to package">
+        <app-a4j-autocomplete [values]="packages" *ngFor="let package of getAnalysedPackages().controls; index as i"
+                              [control]="package" (valueChanged)="setPackage($event)"  placeholder="limit to package">
         </app-a4j-autocomplete>
-        <app-a4j-autocomplete [values]="classes" [control]="config.get('processing')"  placeholder="pre/post processing class"></app-a4j-autocomplete>
+        <app-a4j-autocomplete [values]="classes" *ngFor="let processing of getProcessings().controls; index as i"
+                              [control]="processing"  placeholder="pre/post processing class"></app-a4j-autocomplete>
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>

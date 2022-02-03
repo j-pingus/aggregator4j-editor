@@ -8,8 +8,8 @@ export class Project {
 }
 
 export class Aggregator4j {
-  analysedPackage = '';
-  processing = '';
+  analysedPackages = [];
+  processings = [];
   functionList: A4jFunction[] = new A4jFunction[0]();
   classList: A4jClass[] = new A4jClass[0]();
 }

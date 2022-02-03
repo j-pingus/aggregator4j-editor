@@ -27,7 +27,12 @@ export class ConfigEditorComponent implements OnChanges{
     }
   }
   setFilter(event) {
-    console.log(event);
+  }
+  public getAnalysedPackages(): FormMultiplier{
+    return this.config.get('analysedPackages') as FormMultiplier;
+  }
+  public getProcessings(): FormMultiplier{
+    return this.config.get('processings') as FormMultiplier;
   }
   public getFunctionList(): FormMultiplier {
     return this.config.get('functionList') as FormMultiplier;
@@ -43,7 +48,6 @@ export class ConfigEditorComponent implements OnChanges{
     this.classes = [];
     if (jarName && packageName !== undefined && jarName.endsWith('.jar')) {
       this.service.getClasses(jarName, packageName).subscribe((data) => {
-        console.log(data);
         this.classes = data;
       });
     }
@@ -52,7 +56,6 @@ export class ConfigEditorComponent implements OnChanges{
     this.packages = [];
     if (jarName && jarName.endsWith('.jar')) {
       this.service.getPackages(jarName).subscribe((data) => {
-        console.log(data);
         this.packages = data;
       });
     }

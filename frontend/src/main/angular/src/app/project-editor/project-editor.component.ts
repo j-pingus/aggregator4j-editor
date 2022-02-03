@@ -27,8 +27,8 @@ export class ProjectEditorComponent implements OnInit {
       configuration: formBuilder.group({
         functionList: new FormMultiplier(() => this.formBuilder.group(new A4jFunction())),
         classList: new FormMultiplier(() => this.addClass()),
-        analysedPackage: '',
-        processing: ''
+        analysedPackages: new FormMultiplier(() => new FormControl('')),
+        processings: new FormMultiplier(() => new FormControl(''))
       }),
       jsonPayload: '',
       className: ''
@@ -65,11 +65,9 @@ export class ProjectEditorComponent implements OnInit {
       switchMap((params: ParamMap) =>
         this.service.getProject(params.get('id')))
     ).subscribe(project => {
-      console.log('just before patch');
       this.control.patchValue(project);
       this.oldPayload = project.jsonPayload;
       this.trace.setValue('{}');
-      console.log('just after patch');
       this.control.valueChanges.pipe(debounceTime(1000))
         .subscribe(() => {
           this.error = '';
@@ -106,7 +104,6 @@ export class ProjectEditorComponent implements OnInit {
     this.control.get('jsonPayload').setValue(this.oldPayload);
   }
   evaluate(expression?: string) {
-    console.log(this.control.value);
     this.error = '';
     this.aggregatorService.evaluateProject(this.control.value, expression).subscribe(
       response => {
