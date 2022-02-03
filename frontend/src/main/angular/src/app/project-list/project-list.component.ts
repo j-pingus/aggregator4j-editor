@@ -25,13 +25,11 @@ export class ProjectListComponent implements OnInit {
   getProjects() {
     this.projects = [];
     this.service.getProjects().subscribe((data: {}) => {
-      console.log(data);
       this.projects = data;
     });
   }
 
   edit(project) {
-    console.log('edit');
     this.router.navigateByUrl('project/' + project.id);
   }
 
@@ -43,7 +41,6 @@ export class ProjectListComponent implements OnInit {
 
   delete(project) {
     this.service.deleteProject(project.id).subscribe(data => {
-        console.log(data);
         this.getProjects();
       },
       error => {
@@ -64,8 +61,6 @@ export class ProjectListComponent implements OnInit {
             this.progress.percentage = Math.round(100 * event.loaded / event.total);
           } else if (event instanceof HttpResponse) {
             this.snackBar.open(this.currentFileUpload.name + ' uploaded', null, {duration: 2800});
-            // alert('File Successfully Uploaded');
-            // console.log(event.body);
             this.router.navigateByUrl('project/' + event.body.id);
           }
           this.selectedFiles = undefined;

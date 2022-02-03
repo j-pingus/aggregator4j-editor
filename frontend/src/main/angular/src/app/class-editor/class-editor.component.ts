@@ -36,10 +36,8 @@ export class ClassEditorComponent{
   }
   getFields(className: string) {
     this.fields = [];
-    console.log('Load fields:' + this.jarName + ' - ' + className);
     if (this.jarName && className && this.jarName.endsWith('.jar') && className !== '') {
       this.service.getFields(this.jarName, className).subscribe((data) => {
-        console.log(data);
         this.fields = data;
       });
     }

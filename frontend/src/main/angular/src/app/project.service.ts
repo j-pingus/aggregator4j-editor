@@ -46,7 +46,6 @@ export class ProjectService {
   getConfig(id: string, type: string): Observable<string> {
     const headers = new HttpHeaders();
 
-    console.log(type);
     return this.http.get(endpoint + 'project/' + id + "/config"
       , {headers: headers.append("Accept", type)
     , responseType:'text'});

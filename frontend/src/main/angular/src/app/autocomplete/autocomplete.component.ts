@@ -49,7 +49,6 @@ export class AutocompleteComponent implements OnChanges{
     return this.values
       .filter(option => option.toLowerCase().includes(filterValue))
       .map(option => {
-        console.log(this.prefix);
         if (option.startsWith(this.prefix)) {
           return option.substr(this.prefix.length);
         }

@@ -17,7 +17,6 @@ export class JarListComponent implements OnInit {
   changeImage = false;
 
   constructor(public jarService: JarService, private route: ActivatedRoute, private router: Router, private snackBar: MatSnackBar) {
-    console.log('Jar list component created');
   }
 
   ngOnInit(): void {
@@ -26,7 +25,6 @@ export class JarListComponent implements OnInit {
   getJars() {
     this.jars = [];
     this.jarService.getJars().subscribe((data) => {
-      console.log(data);
       this.jars = data;
     });
   }
