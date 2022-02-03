@@ -17,7 +17,9 @@ export class AutocompleteComponent implements OnChanges{
   @Input()
   placeholder = '';
   @Input()
-  style = 'width:250px';
+  class = '';
+  @Input()
+  width = 1000;
   @Input()
   prefix = '';
   filteredOptions: Observable<string[]>;

@@ -1,10 +1,10 @@
 <div [formGroup]="control">
 
-    <app-a4j-autocomplete [values]="classes" [control]="control.get('className')" style="width:450px"
+    <app-a4j-autocomplete [values]="classes" [control]="control.get('className')"
         (valueChanged)="setClassName($event)" placeholder="class to configure">
     </app-a4j-autocomplete>
 
-    <mat-form-field style="width: 35%;">
+    <mat-form-field>
         <mat-label>context</mat-label>
         <input matInput formControlName="classContext" />
     </mat-form-field>
@@ -15,17 +15,18 @@
                 <mat-list-item *ngFor="let collect of getCollectList().controls |
                 filterControls : undefined : filterValue
                 ; index as j" [formGroup]="collect">
-                    <app-a4j-autocomplete [values]="fields" [control]="collect.get('field')" placeholder="select a field">
+                    <app-a4j-autocomplete [values]="fields" [control]="collect.get('field')"
+                                          placeholder="select a field" width="400">
                     </app-a4j-autocomplete>
-                    <mat-form-field class="fourth">
+                    <mat-form-field [style.width.px]=400>
                         <mat-label>what to collect</mat-label>
                         <input matInput formControlName="what" />
                     </mat-form-field>
-                    <mat-form-field class="fourth">
+                    <mat-form-field [style.width.px]=400>
                         <mat-label>aggregator name</mat-label>
                         <input matInput formControlName="to" />
                     </mat-form-field>
-                    <mat-form-field class="fourth">
+                    <mat-form-field [style.width.px]=400>
                         <mat-label>condition to collect</mat-label>
                         <input matInput formControlName="when" />
                     </mat-form-field>
@@ -45,13 +46,14 @@
                 <mat-list-item *ngFor="let execute of getExecuteList().controls |
         filterControls : undefined : filterValue
         ;  index as j" [formGroup]="execute" class="full">
-                    <app-a4j-autocomplete [values]="fields" [control]="execute.get('field')" placeholder="select a field">
+                    <app-a4j-autocomplete [values]="fields" [control]="execute.get('field')"
+                                          placeholder="select a field"width="400">
                     </app-a4j-autocomplete>
-                    <mat-form-field class="third">
+                    <mat-form-field [style.width.px]=400>
                         <mat-label>expression to execute</mat-label>
                         <input matInput formControlName="jexl" />
                     </mat-form-field>
-                    <mat-form-field class="third">
+                    <mat-form-field [style.width.px]=400>
                         <mat-label>condition to execute</mat-label>
                         <input matInput formControlName="when" />
                     </mat-form-field>
@@ -71,11 +73,12 @@
                 <mat-list-item *ngFor="let aVariable of getVariableList().controls |
         filterControls : undefined : filterValue
         ;  index as j" [formGroup]="aVariable" class="full">
-                    <mat-form-field class="half">
+                    <mat-form-field [style.width.px]=400>
                         <mat-label>variable name</mat-label>
                         <input matInput formControlName="variable" />
                     </mat-form-field>
-                    <app-a4j-autocomplete [values]="fields" [control]="aVariable.get('field')" placeholder="select a field">
+                    <app-a4j-autocomplete [values]="fields" [control]="aVariable.get('field')"
+                                          placeholder="select a field" width="400">
                     </app-a4j-autocomplete>
                     <button mat-icon-button color="warn" (click)="getVariableList().removeAt(j)">
                         <mat-icon>delete</mat-icon>

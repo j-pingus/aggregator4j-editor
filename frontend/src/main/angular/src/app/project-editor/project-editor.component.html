@@ -8,7 +8,7 @@
                     <input matInput formControlName="name" />
                 </mat-form-field>
                 <app-a4j-autocomplete [values]="jars" (valueChanged)="jarNameChanged($event)"
-                    [control]="control.get('jarName')"></app-a4j-autocomplete>
+                    [control]="control.get('jarName')"  placeholder="jar file"></app-a4j-autocomplete>
                 <mat-slide-toggle class="topright" color="primary" [checked]="debug" (change)="debugMode($event)">
                     debug
                 </mat-slide-toggle>

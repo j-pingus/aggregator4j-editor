@@ -13,7 +13,7 @@
     position: absolute;
     top: -52px;
     left: 0px;
-   
+
 }
 mat-form-field{
     padding: 3px;
@@ -32,6 +32,9 @@ mat-form-field{
 }
 .fourth{
     width: 24%;
+}
+expression{
+  width: 120px;
 }
 .wrapper-me {
     border-radius: 12px;
