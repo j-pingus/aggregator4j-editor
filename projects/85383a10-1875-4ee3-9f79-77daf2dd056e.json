@@ -1,1 +1,79 @@
-{"id":"85383a10-1875-4ee3-9f79-77daf2dd056e","name":"Renaud","configuration":{"analysedPackage":"com.foo","processing":"com.foo.InvoiceLine","functionList":[],"classList":[{"classContext":"","className":"com.foo.InvoiceLine","executeList":[{"jexl":"this.unitPrice * this.quantity","when":"","field":"price"},{"jexl":"this.price * this.vat / 100","when":"","field":"vatAmount"}],"collectList":[{"field":"price","what":"","to":"total","when":""},{"field":"vatAmount","what":"","to":"vatTotal","when":""},{"field":"vat","what":"","to":"vat","when":""},{"field":"vatAmount","what":"","to":"eval:'vat-'+this.vat","when":""}],"variableList":[]},{"classContext":"","className":"com.foo.Invoice","executeList":[{"jexl":"sum('total',0.0)","when":"","field":"total"},{"jexl":"sum('vatTotal',0.0)","when":"","field":"vatTotal"}],"collectList":[],"variableList":[]}]},"jsonPayload":"{\"lines\":[{\"quantity\":3,\"unitPrice\":5.15,\"vat\":18},{\"quantity\":6,\"unitPrice\":3,\"vat\":18},{\"quantity\":3,\"unitPrice\":4.32,\"vat\":15}]}","className":"com.foo.Invoice","jarName":"sample-domain-1.0-SNAPSHOT.jar"}
+{
+  "id": "85383a10-1875-4ee3-9f79-77daf2dd056e",
+  "name": "zzz-Simple",
+  "configuration": {
+    "analysedPackages": [
+      ""
+    ],
+    "processings": [
+      ""
+    ],
+    "functionList": [],
+    "classList": [
+      {
+        "classContext": "",
+        "className": "com.foo.InvoiceLine",
+        "executeList": [
+          {
+            "jexl": "this.unitPrice * this.quantity",
+            "when": "",
+            "field": "price"
+          },
+          {
+            "jexl": "this.price * this.vat / 100",
+            "when": "",
+            "field": "vatAmount"
+          }
+        ],
+        "collectList": [
+          {
+            "field": "price",
+            "what": "",
+            "to": "total",
+            "when": ""
+          },
+          {
+            "field": "vatAmount",
+            "what": "",
+            "to": "vatTotal",
+            "when": ""
+          },
+          {
+            "field": "vat",
+            "what": "",
+            "to": "vat",
+            "when": ""
+          },
+          {
+            "field": "vatAmount",
+            "what": "",
+            "to": "eval:'vat-'+this.vat",
+            "when": ""
+          }
+        ],
+        "variableList": []
+      },
+      {
+        "classContext": "",
+        "className": "com.foo.Invoice",
+        "executeList": [
+          {
+            "jexl": "sum('total',0.0)",
+            "when": "",
+            "field": "total"
+          },
+          {
+            "jexl": "sum('vatTotal',0.0)",
+            "when": "",
+            "field": "vatTotal"
+          }
+        ],
+        "collectList": [],
+        "variableList": []
+      }
+    ]
+  },
+  "jsonPayload": "{\"lines\":[{\"quantity\":3,\"unitPrice\":5.15,\"vat\":18},{\"quantity\":6,\"unitPrice\":3,\"vat\":18},{\"quantity\":3,\"unitPrice\":4.32,\"vat\":15}]}",
+  "className": "com.foo.Invoice",
+  "jarName": "sample-domain-1.0-SNAPSHOT.jar"
+}
